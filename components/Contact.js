@@ -18,7 +18,7 @@ export default function Contact() {
                     
                     <Magnetic>
                         <a href="mailto:contact@gabin.dev" className="inline-block text-xl md:text-2xl border-b border-white pb-1 hover:text-blue-400 hover:border-blue-400 transition-colors p-4">
-                            contact@gabin.dev
+                            gabinhalloss@gmail.com
                         </a>
                     </Magnetic>
 
