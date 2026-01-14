@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+@theme {
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-reveal: reveal 1s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Custom Utilities */
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  color: transparent;
+}
+
+.text-stroke:hover {
+  -webkit-text-stroke: 1px #fff;
+  color: #fff;
+}
