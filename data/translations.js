@@ -5,11 +5,19 @@ export const translations = {
             about: "À propos",
             contact: "Contact"
         },
+        menu: {
+            socials: "Réseaux"
+        },
         hero: {
-            role1: "CREATIVE",
-            role2: "DEVELOPER",
+            role1: "DÉVELOPPEUR",
+            role2: "CRÉATIF",
             description: "Je conçois des expériences numériques immersives et performantes. Bienvenue dans mon univers.",
             cta: "Voir mes travaux"
+        },
+        marquee: {
+            role: "Développeur Créatif",
+            available: "Disponible pour mission",
+            design: "UI/UX Design"
         },
         work: {
             title: "Sélection de projets",
@@ -25,7 +33,7 @@ export const translations = {
             skillsTitle: "Compétences"
         },
         contact: {
-            title: "LET'S TALK",
+            title: "DISCUTONS",
             footer: "© 2024 Gabin Hallosserie. Tous droits réservés."
         }
     },
@@ -35,11 +43,19 @@ export const translations = {
             about: "About",
             contact: "Contact"
         },
+        menu: {
+            socials: "Socials"
+        },
         hero: {
             role1: "CREATIVE",
             role2: "DEVELOPER",
             description: "I craft immersive and high-performance digital experiences. Welcome to my universe.",
             cta: "See my work"
+        },
+        marquee: {
+            role: "Creative Developer",
+            available: "Available for work",
+            design: "UI/UX Design"
         },
         work: {
             title: "Selected Work",

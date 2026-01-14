@@ -1,6 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const menuVariants = {
   closed: {
@@ -35,20 +36,20 @@ const linkVariants = {
   })
 };
 
-const links = [
-  { title: "Projets", href: "#work" },
-  { title: "À propos", href: "#about" },
-  { title: "Contact", href: "#contact" }
-];
-
 export default function MobileMenu({ isOpen, setIsOpen }) {
   const lenis = useLenis();
+  const { t } = useLanguage();
+
+  const links = [
+    { title: t.nav.work, href: "#work" },
+    { title: t.nav.about, href: "#about" },
+    { title: t.nav.contact, href: "#contact" }
+  ];
 
   const handleLinkClick = (e, href) => {
     e.preventDefault();
     setIsOpen(false);
     if (lenis) {
-        // Petit délai pour laisser le menu se fermer un peu avant de scroller
         setTimeout(() => {
             lenis.scrollTo(href);
         }, 300);
@@ -84,7 +85,7 @@ export default function MobileMenu({ isOpen, setIsOpen }) {
           </div>
           
           <div className="absolute bottom-12 left-12 text-gray-500 text-sm">
-             <p>Socials</p>
+             <p>{t.menu.socials}</p>
              <div className="flex gap-4 mt-2 text-white">
                  <a href="#" className="hover:text-blue-500">LinkedIn</a>
                  <a href="#" className="hover:text-blue-500">GitHub</a>

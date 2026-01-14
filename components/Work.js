@@ -10,7 +10,7 @@ import { useLanguage } from "@/context/LanguageContext";
 export default function Work() {
     const [selectedId, setSelectedId] = useState(null);
     const lenis = useLenis();
-    const { t } = useLanguage();
+    const { t, language } = useLanguage(); // Récupérer la langue actuelle
 
     useEffect(() => {
         if (selectedId) {
@@ -164,7 +164,8 @@ export default function Work() {
                                                     transition={{ delay: 0.2 }}
                                                     className="text-gray-300 text-lg leading-relaxed mb-8 whitespace-pre-line"
                                                 >
-                                                    {project.description}
+                                                    {/* Utilisation de la langue pour la description */}
+                                                    {project.description[language]}
                                                 </motion.div>
 
                                                 <div className="flex flex-wrap gap-4">
