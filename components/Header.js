@@ -36,42 +36,48 @@ export default function Header() {
                 }`}
             >
                 <div className="text-xl font-bold tracking-tighter uppercase text-white z-50 relative">
-                    Gabin.
+                    <Link href="/" aria-label="Retour à l'accueil">
+                        Gabin.
+                    </Link>
                 </div>
                 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide text-white">
+                <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide text-white" role="navigation" aria-label="Menu principal">
                     <Magnetic>
-                        <a href="#work" onClick={(e) => handleScrollTo(e, "#work")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2">
+                        <a href="#work" onClick={(e) => handleScrollTo(e, "#work")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2 focus:outline-none focus:text-blue-400">
                             {t.nav.work}
                             <span className="absolute bottom-1 left-4 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-[calc(100%-32px)]"></span>
                         </a>
                     </Magnetic>
                     <Magnetic>
-                        <a href="#about" onClick={(e) => handleScrollTo(e, "#about")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2">
+                        <a href="#about" onClick={(e) => handleScrollTo(e, "#about")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2 focus:outline-none focus:text-blue-400">
                             {t.nav.about}
                             <span className="absolute bottom-1 left-4 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-[calc(100%-32px)]"></span>
                         </a>
                     </Magnetic>
                     <Magnetic>
-                        <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2">
+                        <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="hover:text-blue-400 transition-colors relative group cursor-pointer block px-4 py-2 focus:outline-none focus:text-blue-400">
                             {t.nav.contact}
                             <span className="absolute bottom-1 left-4 w-0 h-0.5 bg-blue-400 transition-all group-hover:w-[calc(100%-32px)]"></span>
                         </a>
                     </Magnetic>
 
                     {/* Language Switcher */}
-                    <div className="flex items-center gap-2 ml-4 border-l border-white/20 pl-6">
+                    <div className="flex items-center gap-2 ml-4 border-l border-white/20 pl-6" role="group" aria-label="Sélecteur de langue">
                         <button 
                             onClick={() => toggleLanguage("fr")}
-                            className={`transition-colors ${language === "fr" ? "text-white font-bold" : "text-gray-500 hover:text-white"}`}
+                            aria-label="Passer en Français"
+                            aria-pressed={language === "fr"}
+                            className={`transition-colors focus:outline-none focus:underline ${language === "fr" ? "text-white font-bold" : "text-gray-500 hover:text-white"}`}
                         >
                             FR
                         </button>
-                        <span className="text-gray-700">/</span>
+                        <span className="text-gray-700" aria-hidden="true">/</span>
                         <button 
                             onClick={() => toggleLanguage("en")}
-                            className={`transition-colors ${language === "en" ? "text-white font-bold" : "text-gray-500 hover:text-white"}`}
+                            aria-label="Switch to English"
+                            aria-pressed={language === "en"}
+                            className={`transition-colors focus:outline-none focus:underline ${language === "en" ? "text-white font-bold" : "text-gray-500 hover:text-white"}`}
                         >
                             EN
                         </button>
@@ -83,7 +89,9 @@ export default function Header() {
                     <Magnetic>
                         <button 
                             onClick={() => setIsOpen(!isOpen)}
-                            className="relative w-12 h-12 flex flex-col justify-center items-end gap-1.5 group p-2"
+                            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+                            aria-expanded={isOpen}
+                            className="relative w-12 h-12 flex flex-col justify-center items-end gap-1.5 group p-2 focus:outline-none focus:ring-2 focus:ring-white rounded-full"
                         >
                             <motion.span 
                                 animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}

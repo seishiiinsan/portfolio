@@ -3,7 +3,14 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import Magnetic from "./Magnetic";
-import Scene from "./Scene";
+import dynamic from "next/dynamic";
+
+// Chargement dynamique de la scène 3D pour ne pas bloquer le thread principal
+// ssr: false car Three.js ne fonctionne que côté client (window/canvas)
+const Scene = dynamic(() => import("./Scene"), { 
+    ssr: false,
+    loading: () => <div className="absolute inset-0 bg-transparent" /> // Placeholder invisible
+});
 
 export default function Hero() {
     const { t } = useLanguage();
@@ -23,7 +30,7 @@ export default function Hero() {
             {/* 3D Background */}
             <motion.div 
                 style={{ y }}
-                className="absolute inset-0 z-0 opacity-40" // Opacité réduite pour ne pas gêner la lecture
+                className="absolute inset-0 z-0 opacity-40"
             >
                 <Scene />
             </motion.div>
@@ -65,7 +72,7 @@ export default function Hero() {
                 className="mt-12 z-10 inline-block"
             >
                 <Magnetic>
-                    <a href="#work" className="inline-block border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-medium pointer-events-auto">
+                    <a href="#work" className="inline-block border border-white/20 px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all duration-300 font-medium pointer-events-auto focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black">
                         {t.hero.cta}
                     </a>
                 </Magnetic>

@@ -24,13 +24,10 @@ export default function Contact() {
 
                     <div className="flex gap-8 mt-12">
                         <Magnetic>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors p-2">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/gabin-hallosserie/" className="text-gray-400 hover:text-white transition-colors p-2">LinkedIn</a>
                         </Magnetic>
                         <Magnetic>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors p-2">GitHub</a>
-                        </Magnetic>
-                        <Magnetic>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors p-2">Twitter</a>
+                            <a href="https://github.com/seishiiinsan" className="text-gray-400 hover:text-white transition-colors p-2">GitHub</a>
                         </Magnetic>
                     </div>
 

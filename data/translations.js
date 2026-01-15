@@ -34,7 +34,7 @@ export const translations = {
         },
         contact: {
             title: "DISCUTONS",
-            footer: "© 2024 Gabin Hallosserie. Tous droits réservés."
+            footer: "© 2026 Gabin Hallosserie. Tous droits réservés."
         }
     },
     en: {
@@ -72,7 +72,7 @@ export const translations = {
         },
         contact: {
             title: "LET'S TALK",
-            footer: "© 2024 Gabin Hallosserie. All rights reserved."
+            footer: "© 2026 Gabin Hallosserie. All rights reserved."
         }
     }
 };
