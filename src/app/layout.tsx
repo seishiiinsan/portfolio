@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Unbounded } from "next/font/google";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navbar from "@/components/layout/Navbar";
 import { I18nProvider } from "@/context/i18n";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const unbounded = Unbounded({
+  variable: "--font-syne",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
+      className={`${unbounded.variable} dark antialiased`}
     >
       <body className="bg-black text-white">
         <I18nProvider>
