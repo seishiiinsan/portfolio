@@ -70,7 +70,22 @@ function LanguageDropdown({ onSelect }: { onSelect?: () => void }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
   const { t } = useI18n();
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   const NAV_LINKS = [
     { label: t.nav.about, href: "#about" },
@@ -93,16 +108,23 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <ul className="hidden md:flex items-center gap-0">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="block px-5 py-1 font-bold uppercase tracking-widest text-sm text-white border-2 border-transparent hover:border-white hover:shadow-[4px_4px_0_#fff] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`block px-5 py-1 font-bold uppercase tracking-widest text-sm border-2 transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 ${
+                      isActive
+                        ? "text-[#FFDD00] border-[#FFDD00] shadow-[4px_4px_0_#FFDD00]"
+                        : "text-white border-transparent hover:border-white hover:shadow-[4px_4px_0_#fff]"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Desktop: language selector */}
@@ -146,7 +168,11 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block py-4 font-black uppercase tracking-widest text-4xl text-white border-b-2 border-white hover:text-[#FFDD00] transition-colors"
+                    className={`block py-4 font-black uppercase tracking-widest text-4xl border-b-2 transition-colors ${
+                      activeSection === link.href.slice(1)
+                        ? "text-[#FFDD00] border-[#FFDD00]"
+                        : "text-white border-white hover:text-[#FFDD00]"
+                    }`}
                   >
                     {link.label}
                   </Link>
