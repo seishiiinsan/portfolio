@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "motion/react";
 import { useI18n } from "@/context/i18n";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 const ParticleGlobe = dynamic(
   () => import("@/components/three/ParticleGlobe"),
@@ -85,19 +86,23 @@ export default function Hero() {
             {...(!prefersReduced ? fadeUp(STAGGER * 3) : {})}
             className="flex flex-wrap gap-4"
           >
-            <a
-              href="#work"
-              className="inline-flex items-center gap-2 px-6 py-3 font-black uppercase tracking-widest text-sm bg-white text-black border-2 border-white shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-            >
-              {t.hero.cta_work}
-              <span aria-hidden>→</span>
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-6 py-3 font-black uppercase tracking-widest text-sm bg-transparent text-white border-2 border-white shadow-[4px_4px_0_#fff] hover:shadow-[6px_6px_0_#fff] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-            >
-              {t.hero.cta_contact}
-            </a>
+            <MagneticButton>
+              <a
+                href="#work"
+                className="inline-flex items-center gap-2 px-6 py-3 font-black uppercase tracking-widest text-sm bg-white text-black border-2 border-white shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] transition-shadow duration-150"
+              >
+                {t.hero.cta_work}
+                <span aria-hidden>→</span>
+              </a>
+            </MagneticButton>
+            <MagneticButton>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3 font-black uppercase tracking-widest text-sm bg-transparent text-white border-2 border-white shadow-[4px_4px_0_#fff] hover:shadow-[6px_6px_0_#fff] transition-shadow duration-150"
+              >
+                {t.hero.cta_contact}
+              </a>
+            </MagneticButton>
           </Wrapper>
         </div>
 

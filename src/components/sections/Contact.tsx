@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "@/components/ui/Reveal";
+import MagneticButton from "@/components/ui/MagneticButton";
 import { useI18n } from "@/context/i18n";
 
 const SOCIALS = [
@@ -51,14 +52,16 @@ export default function Contact() {
             <ul className="flex flex-wrap gap-4 md:justify-end">
               {SOCIALS.map((s) => (
                 <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target={s.href.startsWith("mailto") ? undefined : "_blank"}
-                    rel={s.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                    className="inline-flex items-center px-5 py-3 font-black uppercase tracking-widest text-sm border-2 border-white shadow-[4px_4px_0_#fff] hover:shadow-[6px_6px_0_#FFDD00] hover:border-[#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-                  >
-                    {s.label} →
-                  </a>
+                  <MagneticButton>
+                    <a
+                      href={s.href}
+                      target={s.href.startsWith("mailto") ? undefined : "_blank"}
+                      rel={s.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                      className="inline-flex items-center px-5 py-3 font-black uppercase tracking-widest text-sm border-2 border-white shadow-[4px_4px_0_#fff] hover:shadow-[6px_6px_0_#FFDD00] hover:border-[#FFDD00] transition-all duration-150"
+                    >
+                      {s.label} →
+                    </a>
+                  </MagneticButton>
                 </li>
               ))}
             </ul>
