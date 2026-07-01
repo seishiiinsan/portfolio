@@ -40,10 +40,11 @@ export default function Hero() {
       onMouseMove={handleMouseMove}
       className="relative min-h-[calc(100vh-4rem)] border-b-4 border-white flex flex-col"
     >
-      {/* Section number */}
-      <span className="absolute top-6 left-6 md:left-12 font-black text-xs uppercase tracking-[0.25em] text-white/40 select-none">
-        01
-      </span>
+      {/* Header bar */}
+      <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white shrink-0">
+        <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">01</span>
+        <span className="font-black uppercase tracking-widest text-sm text-white/40">Gabin Hallosserie</span>
+      </div>
 
       <div className="flex flex-col md:grid md:grid-cols-2 flex-1">
         {/* ── Left: text ── */}

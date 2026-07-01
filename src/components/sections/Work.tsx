@@ -46,6 +46,7 @@ function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: 
             src={project.image}
             alt={project.title}
             fill
+            sizes="(max-width: 640px) 100vw, 50vw"
             className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-300"
             priority
           />

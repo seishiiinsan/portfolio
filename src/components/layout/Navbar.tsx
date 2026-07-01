@@ -30,7 +30,7 @@ function LanguageDropdown({ onSelect }: { onSelect?: () => void }) {
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-2 px-3 py-1.5 font-black uppercase tracking-widest text-xs border-2 border-white hover:shadow-[4px_4px_0_#fff] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-        aria-label={t.contact.lang_label}
+        aria-label="Select language"
       >
         <span>{FLAGS[lang]}</span>
         <span className="hidden sm:inline">{LANGUAGES[lang]}</span>
