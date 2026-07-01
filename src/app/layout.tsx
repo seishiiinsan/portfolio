@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Navbar from "@/components/layout/Navbar";
+import { I18nProvider } from "@/context/i18n";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,11 +32,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
     >
       <body className="bg-black text-white">
-        <SmoothScroll>
-          <ScrollProgress />
-          <Navbar />
-          <main className="pt-16">{children}</main>
-        </SmoothScroll>
+        <I18nProvider>
+          <SmoothScroll>
+            <ScrollProgress />
+            <Navbar />
+            <main className="pt-16">{children}</main>
+          </SmoothScroll>
+        </I18nProvider>
       </body>
     </html>
   );

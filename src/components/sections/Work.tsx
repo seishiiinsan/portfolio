@@ -1,10 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
+import { useI18n } from "@/context/i18n";
+import { PROJECT_DESCRIPTIONS } from "@/lib/translations";
 
 interface Project {
   id: string;
   title: string;
-  description: string;
+  projectKey: string;
   stack: string[];
   image: string;
   github?: string;
@@ -15,8 +19,7 @@ const PROJECTS: Project[] = [
   {
     id: "01",
     title: "Sekai",
-    description:
-      "World geography learning app with daily 3-minute sessions and spaced repetition. Four game modes — Flags, Capitals, Map, Comparisons — with XP, streaks, activity heatmaps, and a global leaderboard to build long-term habits.",
+    projectKey: "sekai",
     stack: ["Next.js", "TypeScript", "Spaced Repetition", "Gamification"],
     image: "/sekai.png",
     github: "https://github.com/seishiiinsan/sekai",
@@ -25,8 +28,7 @@ const PROJECTS: Project[] = [
   {
     id: "02",
     title: "Mugen",
-    description:
-      "Competitive football predictions platform. Players forecast exact match scores to earn points and climb a monthly global leaderboard. Features power-up boosts, achievement badges, friend networks, and private group leagues with shared prize pools.",
+    projectKey: "mugen",
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Supabase"],
     image: "/mugen.png",
     github: "https://github.com/seishiiinsan/mugen",
@@ -34,7 +36,7 @@ const PROJECTS: Project[] = [
   },
 ];
 
-function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number }) {
+function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: { project: Project; delay?: number; codeLabel: string; liveLabel: string; description: string }) {
   return (
     <Reveal delay={delay}>
       <article className="group flex flex-col border-2 border-white shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 h-full">
@@ -50,7 +52,7 @@ function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number 
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1 p-6 gap-4">
+        <div className="flex flex-col flex-1 p-8 gap-5">
           <div className="flex items-start justify-between gap-4">
             <span className="font-black text-xs text-white/40 tracking-widest">{project.id}</span>
             <div className="flex gap-2">
@@ -61,7 +63,7 @@ function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number 
                   rel="noopener noreferrer"
                   className="font-black uppercase text-xs tracking-widest border-2 border-white px-2 py-1 hover:bg-white hover:text-black transition-colors duration-150"
                 >
-                  Code
+                  {codeLabel}
                 </a>
               )}
               {project.live && (
@@ -71,7 +73,7 @@ function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number 
                   rel="noopener noreferrer"
                   className="font-black uppercase text-xs tracking-widest border-2 border-[#FFDD00] text-[#FFDD00] px-2 py-1 hover:bg-[#FFDD00] hover:text-black transition-colors duration-150"
                 >
-                  Live ↗
+                  {liveLabel} ↗
                 </a>
               )}
             </div>
@@ -79,9 +81,9 @@ function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number 
 
           <h3 className="font-black uppercase text-2xl leading-tight">{project.title}</h3>
 
-          <p className="text-white/60 text-sm leading-relaxed flex-1">{project.description}</p>
+          <p className="text-white/60 text-sm leading-relaxed flex-1">{description}</p>
 
-          <ul className="flex flex-wrap gap-2 pt-4 border-t-2 border-white/20">
+          <ul className="flex flex-wrap gap-3 pt-5 border-t-2 border-white/20">
             {project.stack.map((s) => (
               <li key={s} className="font-bold text-xs uppercase tracking-wide text-[#FFDD00]">
                 {s}
@@ -95,18 +97,20 @@ function ProjectCard({ project, delay = 0 }: { project: Project; delay?: number 
 }
 
 export default function Work() {
+  const { t, lang } = useI18n();
+
   return (
     <section id="work" className="bg-black text-white border-b-4 border-white">
       {/* Header bar */}
-      <div className="flex items-center gap-6 px-6 md:px-12 py-5 border-b-4 border-white">
+      <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">03</span>
-        <span className="font-black uppercase tracking-widest text-sm">Work</span>
+        <span className="font-black uppercase tracking-widest text-sm">{t.work.title}</span>
       </div>
 
-      <div className="p-6 md:p-12">
-        <div className="grid sm:grid-cols-2 gap-6">
+      <div className="p-8 md:p-16">
+        <div className="grid sm:grid-cols-2 gap-8">
           {PROJECTS.map((project, i) => (
-            <ProjectCard key={project.id} project={project} delay={i * 0.1} />
+            <ProjectCard key={project.id} project={project} delay={i * 0.1} codeLabel={t.work.code} liveLabel={t.work.live} description={PROJECT_DESCRIPTIONS[project.projectKey]?.[lang] ?? ""} />
           ))}
         </div>
       </div>

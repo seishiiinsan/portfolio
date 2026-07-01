@@ -1,4 +1,7 @@
+"use client";
+
 import Reveal from "@/components/ui/Reveal";
+import { useI18n } from "@/context/i18n";
 
 const SOCIALS = [
   { label: "GitHub", href: "https://github.com/seishiiinsan" },
@@ -7,21 +10,23 @@ const SOCIALS = [
 ];
 
 export default function Contact() {
+  const { t } = useI18n();
+
   return (
     <section id="contact" className="bg-white text-black min-h-[calc(100vh-4rem)] flex flex-col">
       {/* Header bar */}
-      <div className="flex items-center gap-6 px-6 md:px-12 py-5 border-b-4 border-black">
+      <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-black">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-black/40">04</span>
-        <span className="font-black uppercase tracking-widest text-sm">Contact</span>
+        <span className="font-black uppercase tracking-widest text-sm">{t.contact.title}</span>
       </div>
 
       {/* Main content */}
-      <div className="flex flex-col flex-1 justify-between p-6 md:p-12 gap-16">
+      <div className="flex flex-col flex-1 justify-between p-8 md:p-16 gap-20">
         <Reveal>
           <p className="font-black uppercase leading-[0.85] text-[clamp(3rem,9vw,8rem)] max-w-5xl">
-            Got a project<span className="text-[#FFDD00] bg-black px-3">?</span>
+            {t.contact.headline1}<span className="text-[#FFDD00] bg-black px-3">?</span>
             <br />
-            Let&apos;s build it.
+            {t.contact.headline2}
           </p>
         </Reveal>
 
@@ -33,7 +38,7 @@ export default function Contact() {
               className="group inline-flex flex-col gap-2"
             >
               <span className="font-black uppercase text-xs tracking-widest text-black/40">
-                Drop a line
+                {t.contact.drop}
               </span>
               <span className="font-black text-xl md:text-2xl border-b-4 border-black group-hover:border-[#FFDD00] group-hover:text-[#FFDD00] transition-colors duration-150 pb-1">
                 gabinhalloss@gmail.com
@@ -43,7 +48,7 @@ export default function Contact() {
 
           {/* Socials */}
           <Reveal delay={0.1}>
-            <ul className="flex flex-wrap gap-3 md:justify-end">
+            <ul className="flex flex-wrap gap-4 md:justify-end">
               {SOCIALS.map((s) => (
                 <li key={s.label}>
                   <a
@@ -62,13 +67,15 @@ export default function Contact() {
 
         {/* Footer */}
         <Reveal delay={0.15}>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t-4 border-black">
-            <span className="font-black uppercase tracking-tighter text-lg">
-              GH<span className="text-[#FFDD00]">.</span>
-            </span>
-            <span className="font-bold text-xs uppercase tracking-widest text-black/40">
-              © {new Date().getFullYear()} Gabin Hallosserie — All rights reserved
-            </span>
+          <div className="flex flex-col gap-6 pt-8 border-t-4 border-black">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <span className="font-black uppercase tracking-tighter text-lg">
+                GH<span className="text-[#FFDD00]">.</span>
+              </span>
+              <span className="font-bold text-xs uppercase tracking-widest text-black/40">
+                © {new Date().getFullYear()} Gabin Hallosserie — {t.contact.copyright}
+              </span>
+            </div>
           </div>
         </Reveal>
       </div>
