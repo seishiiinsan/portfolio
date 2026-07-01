@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "@/components/ui/Reveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { useI18n } from "@/context/i18n";
 
 type EntryType = "work" | "education" | "personal";
@@ -75,7 +76,7 @@ export default function Experience() {
       {/* Header bar */}
       <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white shrink-0">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">03</span>
-        <span className="font-black uppercase tracking-widest text-sm">{t.experience.title}</span>
+        <ScrambleText text={t.experience.title} className="font-black uppercase tracking-widest text-sm" />
       </div>
 
       {/* Grid — 2 cols × 3 rows, fills remaining height */}

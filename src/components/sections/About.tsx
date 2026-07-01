@@ -1,6 +1,7 @@
 "use client";
 
 import Reveal from "@/components/ui/Reveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { useI18n } from "@/context/i18n";
 
 const SKILLS = [
@@ -17,7 +18,7 @@ export default function About() {
       {/* Header bar */}
       <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-black">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-black/40">02</span>
-        <span className="font-black uppercase tracking-widest text-sm">{t.about.title}</span>
+        <ScrambleText text={t.about.title} className="font-black uppercase tracking-widest text-sm" />
       </div>
 
       <div className="grid md:grid-cols-[1fr_1.2fr] flex-1">

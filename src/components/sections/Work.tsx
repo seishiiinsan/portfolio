@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { useI18n } from "@/context/i18n";
 import { PROJECT_DESCRIPTIONS } from "@/lib/translations";
 
@@ -107,7 +108,7 @@ export default function Work() {
       {/* Header bar */}
       <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-black">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-black/40">04</span>
-        <span className="font-black uppercase tracking-widest text-sm">{t.work.title}</span>
+        <ScrambleText text={t.work.title} className="font-black uppercase tracking-widest text-sm" />
       </div>
 
       <div className="p-8 md:p-16">

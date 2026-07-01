@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { useReducedMotion } from "motion/react";
 import { useI18n } from "@/context/i18n";
 import MagneticButton from "@/components/ui/MagneticButton";
+import ScrambleText from "@/components/ui/ScrambleText";
 
 const ParticleGlobe = dynamic(
   () => import("@/components/three/ParticleGlobe"),
@@ -44,7 +45,7 @@ export default function Hero() {
       {/* Header bar */}
       <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white shrink-0">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">01</span>
-        <span className="font-black uppercase tracking-widest text-sm text-white/40">Gabin Hallosserie</span>
+        <ScrambleText text="Gabin Hallosserie" className="font-black uppercase tracking-widest text-sm text-white/40" delay={400} />
       </div>
 
       <div className="flex flex-col md:grid md:grid-cols-2 flex-1">

@@ -2,6 +2,7 @@
 
 import Reveal from "@/components/ui/Reveal";
 import MagneticButton from "@/components/ui/MagneticButton";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { useI18n } from "@/context/i18n";
 
 const SOCIALS = [
@@ -18,7 +19,7 @@ export default function Contact() {
       {/* Header bar */}
       <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white">
         <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">05</span>
-        <span className="font-black uppercase tracking-widest text-sm">{t.contact.title}</span>
+        <ScrambleText text={t.contact.title} className="font-black uppercase tracking-widest text-sm" />
       </div>
 
       {/* Main content */}
