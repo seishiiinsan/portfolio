@@ -22,13 +22,13 @@ const SEP = <span className="mx-6 text-black/40">★</span>;
 
 function Track({ reverse = false }: { reverse?: boolean }) {
   const content = ITEMS.map((item, i) => (
-    <span key={i} className="inline-flex items-center font-black uppercase text-sm tracking-widest">
+    <span key={i} className="inline-flex shrink-0 items-center font-black uppercase text-sm tracking-widest">
       {item}{SEP}
     </span>
   ));
 
   return (
-    <div className={`flex w-max whitespace-nowrap ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}>
+    <div className={`inline-flex ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}>
       {content}{content}
     </div>
   );
@@ -36,7 +36,7 @@ function Track({ reverse = false }: { reverse?: boolean }) {
 
 export default function Marquee() {
   return (
-    <div className="overflow-hidden bg-[#FFDD00] text-black border-y-4 border-black py-3.5 select-none">
+    <div className="overflow-hidden whitespace-nowrap bg-[#FFDD00] text-black border-y-4 border-black py-3.5 select-none">
       <Track />
     </div>
   );

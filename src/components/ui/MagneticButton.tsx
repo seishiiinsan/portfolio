@@ -9,14 +9,14 @@ interface Props {
   strength?: number;
 }
 
-export default function MagneticButton({ children, className = "", strength = 0.38 }: Props) {
+export default function MagneticButton({ children, className = "", strength = 0.18 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReduced = useReducedMotion();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { damping: 12, stiffness: 180, mass: 0.5 });
-  const springY = useSpring(y, { damping: 12, stiffness: 180, mass: 0.5 });
+  const springX = useSpring(x, { damping: 20, stiffness: 300, mass: 0.4 });
+  const springY = useSpring(y, { damping: 20, stiffness: 300, mass: 0.4 });
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
     if (!ref.current || prefersReduced) return;

@@ -7,6 +7,14 @@ import { useReducedMotion } from "motion/react";
 import { useI18n } from "@/context/i18n";
 import MagneticButton from "@/components/ui/MagneticButton";
 import ScrambleText from "@/components/ui/ScrambleText";
+import CountUp from "@/components/ui/CountUp";
+
+const STATS = [
+  { target: 5, suffix: "+", label: "Years" },
+  { target: 2, suffix: "", label: "Projects" },
+  { target: 6, suffix: "", label: "Languages" },
+  { target: 12, suffix: "", label: "Tools" },
+];
 
 const ParticleGlobe = dynamic(
   () => import("@/components/three/ParticleGlobe"),
@@ -104,6 +112,18 @@ export default function Hero() {
                 {t.hero.cta_contact}
               </a>
             </MagneticButton>
+          </Wrapper>
+
+          {/* Stats */}
+          <Wrapper {...(!prefersReduced ? fadeUp(STAGGER * 4) : {})} className="flex flex-wrap gap-3">
+            {STATS.map(({ target, suffix, label }) => (
+              <div key={label} className="flex flex-col items-center border-2 border-white/20 px-5 py-3 hover:border-[#FFDD00] transition-colors duration-150">
+                <span className="font-black text-2xl text-white leading-none">
+                  <CountUp target={target} />{suffix && <span className="text-[#FFDD00]">{suffix}</span>}
+                </span>
+                <span className="font-black uppercase text-[9px] tracking-[0.25em] text-white/40 mt-1">{label}</span>
+              </div>
+            ))}
           </Wrapper>
         </div>
 

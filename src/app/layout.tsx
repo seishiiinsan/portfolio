@@ -3,6 +3,7 @@ import { Unbounded } from "next/font/google";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import Cursor from "@/components/ui/Cursor";
+import ConsoleBranding from "@/components/ui/ConsoleBranding";
 import Navbar from "@/components/layout/Navbar";
 import { I18nProvider } from "@/context/i18n";
 import "./globals.css";
@@ -45,6 +46,7 @@ export default function RootLayout({
         <I18nProvider>
           <SmoothScroll>
             <Cursor />
+            <ConsoleBranding />
             <ScrollProgress />
             <Navbar />
             <main className="pt-16">{children}</main>
