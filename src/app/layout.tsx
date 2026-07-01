@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +33,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-black text-white">
         <SmoothScroll>
           <ScrollProgress />
-          {children}
+          <Navbar />
+          <main className="pt-16">{children}</main>
         </SmoothScroll>
       </body>
     </html>
