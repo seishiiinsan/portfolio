@@ -39,9 +39,9 @@ const PROJECTS: Project[] = [
 function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: { project: Project; delay?: number; codeLabel: string; liveLabel: string; description: string }) {
   return (
     <Reveal delay={delay}>
-      <article className="group flex flex-col border-2 border-white shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 h-full">
+      <article className="group flex flex-col border-2 border-black shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150 h-full">
         {/* Image */}
-        <div className="aspect-video border-b-2 border-white overflow-hidden relative">
+        <div className="aspect-video border-b-2 border-black overflow-hidden relative">
           <Image
             src={project.image}
             alt={project.title}
@@ -54,14 +54,14 @@ function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: 
         {/* Content */}
         <div className="flex flex-col flex-1 p-8 gap-5">
           <div className="flex items-start justify-between gap-4">
-            <span className="font-black text-xs text-white/40 tracking-widest">{project.id}</span>
+            <span className="font-black text-xs text-black/40 tracking-widest">{project.id}</span>
             <div className="flex gap-2">
               {project.github && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-black uppercase text-xs tracking-widest border-2 border-white px-2 py-1 hover:bg-white hover:text-black transition-colors duration-150"
+                  className="font-black uppercase text-xs tracking-widest border-2 border-black px-2 py-1 hover:bg-black hover:text-white transition-colors duration-150"
                 >
                   {codeLabel}
                 </a>
@@ -71,7 +71,7 @@ function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: 
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-black uppercase text-xs tracking-widest border-2 border-[#FFDD00] text-[#FFDD00] px-2 py-1 hover:bg-[#FFDD00] hover:text-black transition-colors duration-150"
+                  className="font-black uppercase text-xs tracking-widest border-2 border-[#FFDD00] bg-[#FFDD00] text-black px-2 py-1 hover:bg-black hover:text-[#FFDD00] hover:border-black transition-colors duration-150"
                 >
                   {liveLabel} ↗
                 </a>
@@ -81,12 +81,14 @@ function ProjectCard({ project, delay = 0, codeLabel, liveLabel, description }: 
 
           <h3 className="font-black uppercase text-2xl leading-tight">{project.title}</h3>
 
-          <p className="text-white/60 text-sm leading-relaxed flex-1">{description}</p>
+          <p className="text-black/60 text-sm leading-relaxed flex-1">{description}</p>
 
-          <ul className="flex flex-wrap gap-3 pt-5 border-t-2 border-white/20">
+          <ul className="flex flex-wrap gap-2 pt-5 border-t-2 border-black/20">
             {project.stack.map((s) => (
-              <li key={s} className="font-bold text-xs uppercase tracking-wide text-[#FFDD00]">
-                {s}
+              <li key={s}>
+                <span className="inline-block bg-black text-[#FFDD00] px-2 py-0.5 font-black text-[10px] uppercase tracking-widest">
+                  {s}
+                </span>
               </li>
             ))}
           </ul>
@@ -100,10 +102,10 @@ export default function Work() {
   const { t, lang } = useI18n();
 
   return (
-    <section id="work" className="bg-black text-white border-b-4 border-white">
+    <section id="work" className="bg-white text-black border-b-4 border-black">
       {/* Header bar */}
-      <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-white">
-        <span className="font-black text-xs uppercase tracking-[0.25em] text-white/40">03</span>
+      <div className="flex items-center gap-6 px-8 md:px-16 py-6 md:py-8 border-b-4 border-black">
+        <span className="font-black text-xs uppercase tracking-[0.25em] text-black/40">04</span>
         <span className="font-black uppercase tracking-widest text-sm">{t.work.title}</span>
       </div>
 

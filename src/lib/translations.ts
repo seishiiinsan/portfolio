@@ -39,7 +39,7 @@ export const PROJECT_DESCRIPTIONS: Record<string, Record<Language, string>> = {
 
 export const translations = {
   en: {
-    nav: { about: "About", work: "Work", contact: "Contact" },
+    nav: { about: "About", experience: "Experience", work: "Work", contact: "Contact" },
     hero: {
       badge: "Apprentice @ BeProject",
       role1: "Full-Stack Developer",
@@ -58,6 +58,7 @@ export const translations = {
       bio: "Full-stack developer with a passion for polished interfaces and creative web experiences. I work at the intersection of code and design — from smooth animations to robust architectures. I also leverage AI tools daily to ship faster and smarter, turning cutting-edge models into concrete product features.",
       stack_label: "Stack",
     },
+    experience: { title: "Experience" },
     work: { title: "Work", code: "Code", live: "Live" },
     contact: {
       title: "Contact",
@@ -69,7 +70,7 @@ export const translations = {
     },
   },
   fr: {
-    nav: { about: "À propos", work: "Projets", contact: "Contact" },
+    nav: { about: "À propos", experience: "Parcours", work: "Projets", contact: "Contact" },
     hero: {
       badge: "Alternant @ BeProject",
       role1: "Développeur Full-Stack",
@@ -88,6 +89,7 @@ export const translations = {
       bio: "Développeur full-stack passionné par les interfaces soignées et les expériences web créatives. Je travaille à l'intersection du code et du design — des animations fluides aux architectures robustes. J'utilise aussi les outils IA au quotidien pour livrer plus vite et plus intelligemment.",
       stack_label: "Stack",
     },
+    experience: { title: "Parcours" },
     work: { title: "Projets", code: "Code", live: "Voir" },
     contact: {
       title: "Contact",
@@ -99,7 +101,7 @@ export const translations = {
     },
   },
   zh: {
-    nav: { about: "关于", work: "作品", contact: "联系" },
+    nav: { about: "关于", experience: "经历", work: "作品", contact: "联系" },
     hero: {
       badge: "实习生 @ BeProject",
       role1: "全栈开发者",
@@ -118,6 +120,7 @@ export const translations = {
       bio: "全栈开发者，热衷于精致界面与创意网络体验。我在代码与设计的交叉点工作——从流畅动画到稳健架构。我还每天利用AI工具更快更智能地交付成果，将前沿模型转化为具体的产品功能。",
       stack_label: "技术栈",
     },
+    experience: { title: "经历" },
     work: { title: "作品", code: "代码", live: "预览" },
     contact: {
       title: "联系",
@@ -129,7 +132,7 @@ export const translations = {
     },
   },
   hi: {
-    nav: { about: "परिचय", work: "कार्य", contact: "संपर्क" },
+    nav: { about: "परिचय", experience: "अनुभव", work: "कार्य", contact: "संपर्क" },
     hero: {
       badge: "अप्रेंटिस @ BeProject",
       role1: "फुल-स्टैक डेवलपर",
@@ -148,6 +151,7 @@ export const translations = {
       bio: "परिष्कृत इंटरफेस और क्रिएटिव वेब अनुभवों के प्रति जुनूनी फुल-स्टैक डेवलपर। मैं कोड और डिज़ाइन के चौराहे पर काम करता हूं — सुचारू एनिमेशन से लेकर मजबूत आर्किटेक्चर तक। मैं प्रतिदिन AI टूल्स का उपयोग करके तेज़ और स्मार्ट तरीके से शिप करता हूं।",
       stack_label: "टेक स्टैक",
     },
+    experience: { title: "अनुभव" },
     work: { title: "कार्य", code: "कोड", live: "लाइव" },
     contact: {
       title: "संपर्क",
@@ -159,7 +163,7 @@ export const translations = {
     },
   },
   es: {
-    nav: { about: "Sobre mí", work: "Proyectos", contact: "Contacto" },
+    nav: { about: "Sobre mí", experience: "Trayectoria", work: "Proyectos", contact: "Contacto" },
     hero: {
       badge: "Aprendiz @ BeProject",
       role1: "Desarrollador Full-Stack",
@@ -178,6 +182,7 @@ export const translations = {
       bio: "Desarrollador full-stack apasionado por las interfaces cuidadas y las experiencias web creativas. Trabajo en la intersección del código y el diseño — desde animaciones fluidas hasta arquitecturas robustas. También utilizo herramientas de IA a diario para entregar más rápido e inteligente.",
       stack_label: "Stack",
     },
+    experience: { title: "Trayectoria" },
     work: { title: "Proyectos", code: "Código", live: "Ver" },
     contact: {
       title: "Contacto",
@@ -189,7 +194,7 @@ export const translations = {
     },
   },
   ar: {
-    nav: { about: "حول", work: "أعمال", contact: "تواصل" },
+    nav: { about: "حول", experience: "المسار", work: "أعمال", contact: "تواصل" },
     hero: {
       badge: "متدرب @ BeProject",
       role1: "مطور فول-ستاك",
@@ -208,6 +213,7 @@ export const translations = {
       bio: "مطور فول-ستاك شغوف بالواجهات المصقولة وتجارب الويب الإبداعية. أعمل عند تقاطع الكود والتصميم — من الرسوم المتحركة السلسة إلى البنى التحتية المتينة. أستخدم أيضًا أدوات الذكاء الاصطناعي يومياً لتسليم منتجات أسرع وأذكى.",
       stack_label: "التقنيات",
     },
+    experience: { title: "المسار" },
     work: { title: "أعمال", code: "كود", live: "معاينة" },
     contact: {
       title: "تواصل",
