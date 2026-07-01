@@ -22,3 +22,7 @@ body {
 *::after {
   box-sizing: border-box;
 }
+
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  * { cursor: none !important; }
+}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Unbounded } from "next/font/google";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import Cursor from "@/components/ui/Cursor";
 import Navbar from "@/components/layout/Navbar";
 import { I18nProvider } from "@/context/i18n";
 import "./globals.css";
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body className="bg-black text-white">
         <I18nProvider>
           <SmoothScroll>
+            <Cursor />
             <ScrollProgress />
             <Navbar />
             <main className="pt-16">{children}</main>
