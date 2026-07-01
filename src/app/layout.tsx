@@ -17,8 +17,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Portfolio",
+  title: "Gabin Hallosserie — Full-Stack Developer",
+  description: "Full-stack developer & creative engineer. I build polished interfaces and creative web experiences.",
+  openGraph: {
+    title: "Gabin Hallosserie — Full-Stack Developer",
+    description: "Full-stack developer & creative engineer. I build polished interfaces and creative web experiences.",
+    url: "https://gabinhallosserie.dev",
+    siteName: "Gabin Hallosserie",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gabin Hallosserie — Full-Stack Developer",
+    description: "Full-stack developer & creative engineer.",
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="fr"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}
     >
       <body className="bg-black text-white">

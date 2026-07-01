@@ -65,25 +65,6 @@ export default function About() {
               </ul>
             </div>
           </Reveal>
-
-          <Reveal delay={0.2}>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="/cv.pdf"
-                className="inline-flex items-center gap-2 px-5 py-3 font-black uppercase tracking-widest text-sm bg-black text-white border-2 border-black shadow-[4px_4px_0_#FFDD00] hover:shadow-[6px_6px_0_#FFDD00] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-              >
-                {t.about.cv} ↓
-              </a>
-              <a
-                href="https://github.com/seishiiinsan"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 font-black uppercase tracking-widest text-sm bg-transparent text-black border-2 border-black shadow-[4px_4px_0_#000] hover:shadow-[6px_6px_0_#000] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
-              >
-                GitHub →
-              </a>
-            </div>
-          </Reveal>
         </div>
       </div>
     </section>
