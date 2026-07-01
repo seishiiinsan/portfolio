@@ -82,6 +82,7 @@ export default function ParticleGlobe({
       frameloop={prefersReduced ? "demand" : "always"}
       className="!w-full !h-full"
       gl={{ antialias: false, alpha: true }}
+      style={{ pointerEvents: "none" }}
     >
       <Scene mouse={mouse} />
     </Canvas>

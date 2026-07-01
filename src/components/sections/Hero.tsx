@@ -52,7 +52,7 @@ export default function Hero() {
             className="inline-flex"
           >
             <span className="inline-block border-2 border-white px-3 py-1 text-xs font-black uppercase tracking-widest text-[#FFDD00]">
-              Alternant @ BeProject
+              Apprentice @ BeProject
             </span>
           </Wrapper>
 
