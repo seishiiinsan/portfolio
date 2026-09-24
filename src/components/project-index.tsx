@@ -65,7 +65,7 @@ export function ProjectIndex({ projects, locale }: { projects: Project[]; locale
       </ul>
 
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 z-40 hidden aspect-[4/3] w-[22vw] overflow-hidden md:block"
+        className="pointer-events-none fixed top-0 left-0 z-40 hidden aspect-video w-[24vw] overflow-hidden md:block"
         style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%" }}
         animate={{ scale: active !== null && projects[active]?.cover_url ? 1 : 0, rotate: active !== null ? (active % 2 ? 3 : -3) : 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -80,7 +80,7 @@ export function ProjectIndex({ projects, locale }: { projects: Project[]; locale
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Image src={projects[active].cover_url!} alt="" fill sizes="22vw" className="object-cover" />
+              <Image src={projects[active].cover_url!} alt="" fill sizes="24vw" className="object-cover" />
             </motion.div>
           )}
         </AnimatePresence>

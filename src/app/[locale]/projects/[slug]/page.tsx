@@ -10,6 +10,7 @@ import { getProject, getProjects, getSettings } from "@/lib/data";
 import { PageTransition } from "@/components/page-transition";
 import { Reveal, Rule } from "@/components/reveal";
 import { Footer } from "@/components/footer";
+import { GalleryCarousel } from "@/components/gallery-carousel";
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -87,11 +88,20 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
         </header>
 
         {p.cover_url && (
-          <Reveal className="px-4 md:px-8" y={80}>
-            <div className="relative aspect-[16/9] overflow-hidden bg-line">
-              <Image src={p.cover_url} alt={t(p.title, locale)} fill priority sizes="100vw" className="object-cover" />
-            </div>
-          </Reveal>
+          <div className="grid px-4 md:grid-cols-12 md:gap-6 md:px-8">
+            <Reveal className="md:col-span-8 md:col-start-3" y={60}>
+              <div className="relative aspect-video overflow-hidden bg-line">
+                <Image
+                  src={p.cover_url}
+                  alt={t(p.title, locale)}
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 66vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          </div>
         )}
 
         <section className="grid gap-10 px-4 py-24 md:grid-cols-12 md:gap-6 md:px-8">
@@ -104,15 +114,9 @@ export default async function ProjectPage({ params }: PageProps<"/[locale]/proje
         </section>
 
         {p.gallery.length > 0 && (
-          <section className="grid gap-4 px-4 md:grid-cols-2 md:gap-6 md:px-8">
-            {p.gallery.map((src, i) => (
-              <Reveal key={src} delay={(i % 2) * 0.1} className={i % 3 === 0 ? "md:col-span-2" : undefined}>
-                <div className={`relative overflow-hidden bg-line ${i % 3 === 0 ? "aspect-[16/9]" : "aspect-[4/5]"}`}>
-                  <Image src={src} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
-                </div>
-              </Reveal>
-            ))}
-          </section>
+          <Reveal className="px-4 md:px-8">
+            <GalleryCarousel images={p.gallery} title={t(p.title, locale)} />
+          </Reveal>
         )}
 
         {next && (

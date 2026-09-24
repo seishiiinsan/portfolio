@@ -5,17 +5,17 @@ import { useSyncExternalStore } from "react";
 type Theme = "light" | "dark";
 
 // Inline dans <head> : pose le thème avant le premier paint.
-export const themeScript = `(()=>{try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}})()`;
+export const themeScript = `(()=>{try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}})()`;
 
 function subscribe(cb: () => void) {
   const mo = new MutationObserver(cb);
   mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   return () => mo.disconnect();
 }
-const getTheme = () => (document.documentElement.dataset.theme as Theme) ?? "light";
+const getTheme = () => (document.documentElement.dataset.theme as Theme) ?? "dark";
 
 export function ThemeToggle({ label }: { label: string }) {
-  const theme = useSyncExternalStore(subscribe, getTheme, () => null);
+  const theme = useSyncExternalStore(subscribe, getTheme, (): Theme => "dark");
 
   function toggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
