@@ -18,7 +18,6 @@ const dict = {
     nav: { about: "À propos", work: "Projets", experience: "Parcours", contact: "Contact" },
     available: "Disponible",
     unavailable: "Indisponible",
-    localTime: "Heure locale",
     scroll: "Défiler",
     selected: "Projets sélectionnés",
     allProjects: "Tous les projets",
@@ -48,15 +47,11 @@ const dict = {
     next: "Projet suivant",
     noProjects: "Aucun projet pour le moment.",
     theme: "Thème",
-    rights: "Tous droits réservés.",
-    notFound: "Page introuvable.",
-    home: "Accueil",
   },
   en: {
     nav: { about: "About", work: "Work", experience: "Journey", contact: "Contact" },
     available: "Available",
     unavailable: "Unavailable",
-    localTime: "Local time",
     scroll: "Scroll",
     selected: "Selected work",
     allProjects: "All projects",
@@ -86,9 +81,6 @@ const dict = {
     next: "Next project",
     noProjects: "No projects yet.",
     theme: "Theme",
-    rights: "All rights reserved.",
-    notFound: "Page not found.",
-    home: "Home",
   },
 } as const;
 

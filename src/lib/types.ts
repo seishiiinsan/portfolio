@@ -1,6 +1,6 @@
 import type { L10n } from "./i18n";
 
-export type Social = { label: string; url: string };
+type Social = { label: string; url: string };
 
 export type Settings = {
   id: number;
