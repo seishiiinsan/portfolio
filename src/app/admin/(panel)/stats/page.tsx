@@ -108,6 +108,12 @@ export default async function AdminStats() {
           Comptage maison sans cookie (une vue par affichage de page, robots exclus). Pour les visiteurs uniques et Core Web
           Vitals, voir Vercel Analytics / Speed Insights.
         </p>
+        <p className="mt-2 text-xs text-muted">
+          Suivi des erreurs : Sentry.{" "}
+          <a href="/api/sentry-test" target="_blank" rel="noreferrer" className="link-u">
+            Déclencher une erreur de test
+          </a>
+        </p>
       </section>
     </>
   );
