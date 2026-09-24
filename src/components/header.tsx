@@ -7,7 +7,17 @@ import { useState } from "react";
 import type { Dict, Locale } from "@/lib/i18n";
 import { ThemeToggle } from "./theme";
 
-export function Header({ locale, dict, name }: { locale: Locale; dict: Dict; name: string }) {
+export function Header({
+  locale,
+  dict,
+  name,
+  studio,
+}: {
+  locale: Locale;
+  dict: Dict;
+  name: string;
+  studio?: { name: string; url: string };
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const other: Locale = locale === "fr" ? "en" : "fr";
@@ -59,6 +69,11 @@ export function Header({ locale, dict, name }: { locale: Locale; dict: Dict; nam
         </nav>
 
         <div className="col-span-2 flex items-center justify-end gap-5 md:col-span-3">
+          {studio && (
+            <a href={studio.url} target="_blank" rel="noreferrer" className="link-u hidden lg:inline">
+              {studio.name} ↗
+            </a>
+          )}
           <Link
             href={switchHref}
             transitionTypes={["nav-fade"]}

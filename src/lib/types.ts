@@ -14,6 +14,8 @@ export type Settings = {
   email: string;
   socials: Social[];
   cv_url: string | null;
+  studio_name: string | null;
+  studio_url: string | null;
   updated_at: string;
 };
 

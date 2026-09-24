@@ -95,7 +95,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                       <Reveal key={e.id} delay={i * 0.08}>
                         <li className="group grid grid-cols-4 gap-4 border-t border-line py-6 md:grid-cols-9 md:gap-6">
                           <span className="col-span-4 font-mono text-xs uppercase text-muted md:col-span-2 md:pt-2">
-                            {e.start_date} — {e.end_date || dict.present}
+                            {e.end_date === e.start_date ? e.start_date : `${e.start_date} — ${e.end_date || dict.present}`}
                           </span>
                           <div className="col-span-4 md:col-span-5">
                             <p className="text-2xl font-medium tracking-tight transition-colors group-hover:text-accent md:text-3xl">
@@ -106,8 +106,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                             )}
                           </div>
                           <span className="col-span-4 font-mono text-xs uppercase md:col-span-2 md:pt-2 md:text-right">
-                            {e.org}
-                            {e.location ? `, ${e.location}` : ""}
+                            {[e.org, e.location].filter(Boolean).join(", ")}
                           </span>
                         </li>
                       </Reveal>

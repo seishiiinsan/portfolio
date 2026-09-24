@@ -14,6 +14,8 @@ const FALLBACK: Settings = {
   email: "",
   socials: [],
   cv_url: null,
+  studio_name: null,
+  studio_url: null,
   updated_at: "",
 };
 
