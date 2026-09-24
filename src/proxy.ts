@@ -2,15 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 
+// Anglais par défaut ; la langue choisie via le switch est mémorisée en cookie.
 function pickLocale(req: NextRequest) {
   const cookie = req.cookies.get("locale")?.value;
-  if (cookie && isLocale(cookie)) return cookie;
-  const accept = req.headers.get("accept-language") ?? "";
-  for (const part of accept.split(",")) {
-    const code = part.split(";")[0].trim().slice(0, 2).toLowerCase();
-    if (isLocale(code)) return code;
-  }
-  return defaultLocale;
+  return cookie && isLocale(cookie) ? cookie : defaultLocale;
 }
 
 async function adminGate(req: NextRequest) {

@@ -26,8 +26,8 @@ Développeur full-stack à Castres · co-fondateur de [Rinku Studio](https://rin
 
 **Site public**
 - Style suisse : grille visible, typographie Space Grotesk / Space Mono, une couleur d'accent.
-- Bilingue FR / EN (`/fr`, `/en`), langue détectée automatiquement.
-- Thème clair / sombre, suit le système, bascule animée.
+- Bilingue EN / FR (`/en`, `/fr`), anglais par défaut, choix mémorisé.
+- Thème sombre par défaut, bascule clair / sombre animée.
 - Accueil en une page : hero, à propos, projets mis en avant, parcours, contact.
 - Index des projets avec aperçu d'image au survol, pages détail en Markdown avec galerie.
 - Formulaire de contact enregistré en base.
