@@ -25,8 +25,8 @@ RLS : lecture publique, écriture réservée à `public.is_admin()` = login GitH
 1. GitHub → Settings → Developer settings → OAuth Apps → New.
    Callback URL : `https://wuailekujwcdkpqvycga.supabase.co/auth/v1/callback`
 2. Supabase → Authentication → Sign In / Providers → GitHub : coller Client ID + Secret.
-3. Supabase → Authentication → URL Configuration : Site URL = URL de prod,
-   Redirect URLs += `http://localhost:3000/auth/callback`, `https://<prod>/auth/callback`.
+3. Supabase → Authentication → URL Configuration : Site URL = `https://gabin-hallosserie.com`,
+   Redirect URLs += `http://localhost:3000/auth/callback`, `https://gabin-hallosserie.com/auth/callback`.
 
 Ajouter un autre admin : `insert into public.admins (login) values ('<github-login>');`
 
