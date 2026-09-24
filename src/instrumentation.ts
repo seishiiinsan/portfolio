@@ -6,4 +6,8 @@ export async function register() {
 }
 
 // Remonte les erreurs des Server Components, route handlers et server actions.
-export const onRequestError = Sentry.captureRequestError;
+// Flush explicite : sur Vercel la fonction peut être gelée avant l'envoi en arrière-plan.
+export async function onRequestError(...args: Parameters<typeof Sentry.captureRequestError>) {
+  Sentry.captureRequestError(...args);
+  await Sentry.flush(2000);
+}
