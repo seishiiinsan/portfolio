@@ -2,7 +2,7 @@
 
 # Gabin Hallosserie — Portfolio
 
-Portfolio personnel · Étudiant M1 EADL, développeur logiciel en alternance chez [BeProject](https://www.beproject.fr/).
+Développeur full-stack à Castres · co-fondateur de [Rinku Studio](https://rinku-studio.fr) · alternant chez [BeProject](https://www.beproject.fr/).
 
 **[gabin-hallosserie.com](https://gabin-hallosserie.com)**
 
@@ -87,7 +87,7 @@ Variables (toutes publiques, voir `.env.example`) :
 ## Base de données
 
 Schéma dans [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql) :
-`settings` (ligne unique), `projects`, `experiences`, `messages`, `admins`, bucket public `media`.
+`settings` (ligne unique, dont lien studio), `projects`, `experiences`, `messages`, `admins`, bucket public `media`.
 
 La RLS autorise la lecture publique et réserve l'écriture à `public.is_admin()`. Les visiteurs peuvent seulement envoyer un message.
 

@@ -54,7 +54,12 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           ))}
         </div>
         <Loader name={s.name} />
-        <Header locale={locale} dict={dict} name={s.name} />
+        <Header
+          locale={locale}
+          dict={dict}
+          name={s.name}
+          studio={s.studio_name && s.studio_url ? { name: s.studio_name, url: s.studio_url } : undefined}
+        />
         <main className="relative z-10">{children}</main>
         <div className="grain" aria-hidden />
         <Cursor />

@@ -16,7 +16,7 @@ export function t(v: L10n | null | undefined, locale: Locale): string {
 const dict = {
   fr: {
     nav: { about: "À propos", work: "Projets", experience: "Parcours", contact: "Contact" },
-    available: "Disponible",
+    available: "Ouvert aux projets",
     unavailable: "Indisponible",
     scroll: "Défiler",
     selected: "Projets sélectionnés",
@@ -28,7 +28,7 @@ const dict = {
     education: "Formation",
     present: "Présent",
     contact: "Contact",
-    contactTitle: "Travaillons ensemble.",
+    contactTitle: "Un projet ? Parlons-en.",
     name: "Nom",
     email: "Email",
     message: "Message",
@@ -50,7 +50,7 @@ const dict = {
   },
   en: {
     nav: { about: "About", work: "Work", experience: "Journey", contact: "Contact" },
-    available: "Available",
+    available: "Open to projects",
     unavailable: "Unavailable",
     scroll: "Scroll",
     selected: "Selected work",
@@ -62,7 +62,7 @@ const dict = {
     education: "Education",
     present: "Present",
     contact: "Contact",
-    contactTitle: "Let's work together.",
+    contactTitle: "Got a project? Let's talk.",
     name: "Name",
     email: "Email",
     message: "Message",

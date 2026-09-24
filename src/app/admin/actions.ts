@@ -44,6 +44,8 @@ export async function saveSettings(f: FormData) {
       email: str(f, "email"),
       available: f.get("available") === "on",
       cv_url: opt(f, "cv_url"),
+      studio_name: opt(f, "studio_name"),
+      studio_url: opt(f, "studio_url"),
       socials,
       updated_at: new Date().toISOString(),
     })

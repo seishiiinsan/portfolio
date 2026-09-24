@@ -25,9 +25,15 @@ export default async function SettingsPage({ searchParams }: PageProps<"/admin">
           <Field label="Email de contact">
             <input name="email" type="email" defaultValue={s.email} className={input} />
           </Field>
+          <Field label="Studio (nom)">
+            <input name="studio_name" defaultValue={s.studio_name ?? ""} className={input} />
+          </Field>
+          <Field label="Studio (URL)">
+            <input name="studio_url" type="url" defaultValue={s.studio_url ?? ""} className={input} />
+          </Field>
           <label className="flex items-center gap-3 self-end pb-2">
             <input type="checkbox" name="available" defaultChecked={s.available} className="size-4 accent-[var(--accent)]" />
-            <span>Disponible (pastille hero)</span>
+            <span>Ouvert aux projets (pastille hero)</span>
           </label>
         </div>
         <Field label="Couleur d'accent">
