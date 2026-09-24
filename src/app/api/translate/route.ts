@@ -24,11 +24,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const client = new Anthropic();
-    const response = await client.beta.messages.create({
-      model: "claude-opus-5",
+    const response = await client.messages.create({
+      model: "claude-sonnet-5",
       max_tokens: 16000,
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
       output_config: { effort: "low" },
       system: `You translate portfolio content written by a French full-stack developer from ${langs[from!]} to ${langs[to!]}. Keep the author's tone (warm, direct, first person), technical terms and product names unchanged.${
         markdown ? " Preserve the Markdown structure exactly (headings, lists, links, code)." : ""
@@ -45,7 +43,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ text: out });
   } catch (e) {
     if (e instanceof Anthropic.RateLimitError) return NextResponse.json({ error: "Limite atteinte, réessaie" }, { status: 429 });
-    if (e instanceof Anthropic.APIError) return NextResponse.json({ error: `Erreur API (${e.status})` }, { status: 502 });
+    if (e instanceof Anthropic.APIError) {
+      console.error("translate:", e.status, e.message);
+      const detail = (e.error as { error?: { message?: string } } | undefined)?.error?.message ?? e.message;
+      return NextResponse.json({ error: `Erreur API (${e.status}) : ${detail}` }, { status: 502 });
+    }
+    console.error("translate:", e);
     return NextResponse.json({ error: "Traduction impossible" }, { status: 500 });
   }
 }
