@@ -18,7 +18,7 @@ export function Hero({
   text: string;
   location: string;
   available: boolean;
-  labels: { available: string; unavailable: string; scroll: string; localTime: string };
+  labels: { available: string; unavailable: string; scroll: string };
 }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
