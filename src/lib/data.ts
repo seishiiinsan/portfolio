@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createPublicClient } from "./supabase/public";
-import type { Experience, Project, Settings } from "./types";
+import type { Experience, Page, Post, Project, Settings, Testimonial } from "./types";
 
 const FALLBACK: Settings = {
   id: 1,
@@ -16,6 +16,11 @@ const FALLBACK: Settings = {
   cv_url: null,
   studio_name: null,
   studio_url: null,
+  booking_url: null,
+  trainings_count: 0,
+  stack: [],
+  cta_label: { fr: "", en: "" },
+  cta_url: null,
   updated_at: "",
 };
 
@@ -45,3 +50,31 @@ export const getExperiences = cache(async (): Promise<Experience[]> => {
   const { data } = await createPublicClient().from("experiences").select("*").order("position");
   return (data as Experience[]) ?? [];
 });
+
+export const getPage = cache(async (slug: string): Promise<Page | null> => {
+  const { data } = await createPublicClient().from("pages").select("*").eq("slug", slug).maybeSingle();
+  return (data as Page) ?? null;
+});
+
+export const getPosts = cache(async (): Promise<Post[]> => {
+  const { data } = await createPublicClient()
+    .from("posts")
+    .select("*")
+    .eq("published", true)
+    .order("published_at", { ascending: false });
+  return (data as Post[]) ?? [];
+});
+
+export const getPost = cache(async (slug: string) => (await getPosts()).find((p) => p.slug === slug) ?? null);
+
+export const getTestimonials = cache(async (): Promise<Testimonial[]> => {
+  const { data } = await createPublicClient().from("testimonials").select("*").order("position");
+  return (data as Testimonial[]) ?? [];
+});
+
+/** Projet non publié, lu via son jeton de prévisualisation. */
+export async function getPreviewProject(token: string): Promise<Project | null> {
+  if (!/^[0-9a-f-]{36}$/i.test(token)) return null;
+  const { data } = await createPublicClient().rpc("project_by_preview_token", { p_token: token });
+  return ((data as Project[] | null) ?? [])[0] ?? null;
+}

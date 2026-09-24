@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { SplitText, useIntroDone } from "./reveal";
 import { LocalTime } from "./local-time";
+import { Magnetic } from "./magnetic";
 
 export function Hero({
   name,
@@ -12,6 +13,7 @@ export function Hero({
   location,
   available,
   labels,
+  cta,
 }: {
   name: string;
   role: string;
@@ -19,6 +21,7 @@ export function Hero({
   location: string;
   available: boolean;
   labels: { available: string; unavailable: string; scroll: string };
+  cta?: { label: string; url: string };
 }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -63,7 +66,27 @@ export function Hero({
         >
           {text}
         </motion.p>
-        <motion.h1 style={{ y: y1 }} className="font-medium leading-[0.82] tracking-[-0.065em]" aria-label={name}>
+        {cta && (
+          <motion.div
+            className="mb-10 md:ml-[calc(50%+0.75rem)]"
+            initial={{ opacity: 0, y: 12 }}
+            animate={intro ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 0.9, ease, delay: 1.3 }}
+          >
+            <Magnetic>
+              <a
+                href={cta.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group relative inline-flex overflow-hidden rounded-full bg-accent px-6 py-3 font-mono text-xs uppercase text-accent-fg"
+              >
+                <span className="absolute inset-0 translate-y-full rounded-full bg-fg transition-transform duration-500 ease-out-expo group-hover:translate-y-0" />
+                <span className="relative transition-colors group-hover:text-bg">{cta.label} ↗</span>
+              </a>
+            </Magnetic>
+          </motion.div>
+        )}
+        <motion.h1 style={{ y: y1 }} className="font-medium leading-[0.82] tracking-[-0.065em]">
           <SplitText text={first} waitIntro className="block text-[23vw] md:text-[19vw]" stagger={0.05} />
           <span className="flex items-end justify-between gap-4">
             <SplitText

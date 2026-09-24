@@ -3,6 +3,7 @@
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { useReducedMotionPref } from "@/lib/motion-pref";
 
 declare global {
   interface Window {
@@ -12,9 +13,10 @@ declare global {
 
 export function SmoothScroll() {
   const pathname = usePathname();
+  const reduce = useReducedMotionPref();
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (reduce) return;
     const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), anchors: true });
     window.__lenis = lenis;
     let raf = requestAnimationFrame(function loop(time) {
@@ -26,7 +28,7 @@ export function SmoothScroll() {
       lenis.destroy();
       window.__lenis = undefined;
     };
-  }, []);
+  }, [reduce]);
 
   useEffect(() => {
     if (window.location.hash) return;

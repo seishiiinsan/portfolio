@@ -1,6 +1,7 @@
 import { requireAdmin } from "@/lib/admin";
 import type { Experience } from "@/lib/types";
-import { deleteExperience, saveExperience } from "../../actions";
+import { deleteExperience, reorder, saveExperience } from "../../actions";
+import { SortableList } from "../../sortable-list";
 import { Field, L10nField, Submit, Title, input } from "../../ui";
 
 function ExpForm({ e }: { e?: Experience }) {
@@ -29,14 +30,7 @@ function ExpForm({ e }: { e?: Experience }) {
       </div>
       <L10nField name="title" label="Intitulé" value={e?.title} />
       <L10nField name="description" label="Description" value={e?.description} area rows={2} />
-      <div className="flex items-center gap-4">
-        <Field label="Position">
-          <input name="position" type="number" defaultValue={e?.position ?? 0} className={`${input} w-24`} />
-        </Field>
-        <div className="self-end">
-          <Submit>{e ? "Enregistrer" : "Ajouter"}</Submit>
-        </div>
-      </div>
+      <Submit>{e ? "Enregistrer" : "Ajouter"}</Submit>
     </form>
   );
 }
@@ -48,6 +42,17 @@ export default async function AdminExperiences() {
   return (
     <>
       <Title>Parcours</Title>
+      <div className="mb-12 max-w-5xl">
+        <p className="mb-2 font-mono text-[11px] uppercase text-muted">Ordre d&apos;affichage (glisser-déposer)</p>
+        <SortableList
+          onReorder={reorder.bind(null, "experiences")}
+          items={exps.map((e) => ({
+            id: e.id,
+            label: e.title.fr || e.title.en,
+            meta: `${e.kind === "work" ? "Exp" : "Formation"} · ${e.org}`,
+          }))}
+        />
+      </div>
       <div className="grid max-w-5xl gap-6">
         {exps.map((e) => (
           <details key={e.id} className="group border border-line p-4 open:pb-6">

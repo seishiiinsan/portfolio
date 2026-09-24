@@ -15,6 +15,23 @@ const list = (f: FormData, k: string) =>
     .map((s) => s.trim())
     .filter(Boolean);
 
+const slugify = (v: string) =>
+  v
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+/** « valeur | libellé FR | libellé EN » par ligne. */
+function metrics(f: FormData) {
+  return str(f, "metrics")
+    .split("\n")
+    .map((l) => l.split("|").map((s) => s.trim()))
+    .filter(([value]) => value)
+    .map(([value, fr = "", en = ""]) => ({ value, label: { fr, en: en || fr } }));
+}
+
 function publish() {
   revalidatePath("/", "layout");
 }
@@ -46,6 +63,11 @@ export async function saveSettings(f: FormData) {
       cv_url: opt(f, "cv_url"),
       studio_name: opt(f, "studio_name"),
       studio_url: opt(f, "studio_url"),
+      booking_url: opt(f, "booking_url"),
+      trainings_count: Math.max(0, Number(str(f, "trainings_count")) || 0),
+      stack: list(f, "stack"),
+      cta_label: l10n(f, "cta_label"),
+      cta_url: opt(f, "cta_url"),
       socials,
       updated_at: new Date().toISOString(),
     })
@@ -76,6 +98,8 @@ export async function saveProject(f: FormData) {
     featured: f.get("featured") === "on",
     published: f.get("published") === "on",
     position: Number(str(f, "position")) || 0,
+    video_url: opt(f, "video_upload") ?? opt(f, "video_url"),
+    metrics: metrics(f),
   };
   if (!row.slug) throw new Error("Slug requis");
   const { error } = id ? await db.from("projects").update(row).eq("id", id) : await db.from("projects").insert(row);
@@ -92,17 +116,91 @@ export async function deleteProject(f: FormData) {
   redirect("/admin/projects");
 }
 
-export async function moveProject(f: FormData) {
+const SORTABLE = ["projects", "experiences", "testimonials"] as const;
+
+export async function reorder(table: (typeof SORTABLE)[number], ids: string[]) {
+  if (!SORTABLE.includes(table)) throw new Error("Table invalide");
   const db = await requireAdmin();
-  const { data } = await db.from("projects").select("id").order("position").order("created_at", { ascending: false });
-  const ids = (data ?? []).map((r) => r.id as string);
-  const i = ids.indexOf(str(f, "id"));
-  const j = i + (str(f, "dir") === "up" ? -1 : 1);
-  if (i < 0 || j < 0 || j >= ids.length) return;
-  [ids[i], ids[j]] = [ids[j], ids[i]];
-  await Promise.all(ids.map((id, position) => db.from("projects").update({ position }).eq("id", id)));
+  await Promise.all(ids.map((id, position) => db.from(table).update({ position }).eq("id", id)));
   publish();
-  revalidatePath("/admin/projects");
+  revalidatePath(`/admin/${table}`);
+}
+
+export async function savePost(f: FormData) {
+  const db = await requireAdmin();
+  const id = str(f, "id");
+  const row = {
+    slug: slugify(str(f, "slug")),
+    title: l10n(f, "title"),
+    summary: l10n(f, "summary"),
+    content: l10n(f, "content"),
+    cover_url: opt(f, "cover_url"),
+    tags: list(f, "tags"),
+    published: f.get("published") === "on",
+    published_at: str(f, "published_at") ? new Date(str(f, "published_at")).toISOString() : new Date().toISOString(),
+  };
+  if (!row.slug) throw new Error("Slug requis");
+  const { error } = id ? await db.from("posts").update(row).eq("id", id) : await db.from("posts").insert(row);
+  if (error) throw new Error(error.message);
+  publish();
+  redirect("/admin/posts?saved=1");
+}
+
+export async function deletePost(f: FormData) {
+  const db = await requireAdmin();
+  await db.from("posts").delete().eq("id", str(f, "id"));
+  publish();
+  redirect("/admin/posts");
+}
+
+export async function savePage(f: FormData) {
+  const db = await requireAdmin();
+  const slug = slugify(str(f, "slug"));
+  if (!slug) throw new Error("Slug requis");
+  const { error } = await db
+    .from("pages")
+    .upsert({ slug, title: l10n(f, "title"), content: l10n(f, "content"), updated_at: new Date().toISOString() });
+  if (error) throw new Error(error.message);
+  publish();
+  redirect("/admin/pages?saved=1");
+}
+
+export async function saveTestimonial(f: FormData) {
+  const db = await requireAdmin();
+  const id = str(f, "id");
+  const row = {
+    author: str(f, "author"),
+    role: opt(f, "role"),
+    url: opt(f, "url"),
+    quote: l10n(f, "quote"),
+  };
+  if (!row.author) throw new Error("Auteur requis");
+  const { error } = id
+    ? await db.from("testimonials").update(row).eq("id", id)
+    : await db.from("testimonials").insert({ ...row, position: 999 });
+  if (error) throw new Error(error.message);
+  publish();
+  revalidatePath("/admin/testimonials");
+}
+
+export async function deleteTestimonial(f: FormData) {
+  const db = await requireAdmin();
+  await db.from("testimonials").delete().eq("id", str(f, "id"));
+  publish();
+  revalidatePath("/admin/testimonials");
+}
+
+export async function deleteSubscriber(f: FormData) {
+  const db = await requireAdmin();
+  await db.from("subscribers").delete().eq("id", str(f, "id"));
+  revalidatePath("/admin/subscribers");
+}
+
+export async function regeneratePreviewToken(f: FormData) {
+  const db = await requireAdmin();
+  const id = str(f, "id");
+  await db.from("projects").update({ preview_token: crypto.randomUUID() }).eq("id", id);
+  revalidatePath(`/admin/projects/${id}`);
 }
 
 export async function saveExperience(f: FormData) {
@@ -116,11 +214,10 @@ export async function saveExperience(f: FormData) {
     location: opt(f, "location"),
     start_date: str(f, "start_date"),
     end_date: opt(f, "end_date"),
-    position: Number(str(f, "position")) || 0,
   };
   const { error } = id
     ? await db.from("experiences").update(row).eq("id", id)
-    : await db.from("experiences").insert(row);
+    : await db.from("experiences").insert({ ...row, position: 999 });
   if (error) throw new Error(error.message);
   publish();
   revalidatePath("/admin/experiences");

@@ -209,3 +209,79 @@ body {
   }
   .grain { animation: none; }
 }
+
+/* ---------- Accessibilité ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 110;
+  translate: 0 -200%;
+  background: var(--accent);
+  color: var(--accent-fg);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  transition: translate 0.3s var(--ease-out);
+}
+.skip-link:focus {
+  translate: 0 0;
+}
+
+/* ---------- Marquee ---------- */
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-100%); }
+}
+
+/* ---------- Transition rideau ---------- */
+::view-transition-old(.nav-curtain) {
+  animation: 600ms var(--ease-in-out) both vt-curtain-out;
+}
+::view-transition-new(.nav-curtain) {
+  animation: 800ms var(--ease-in-out) 100ms both vt-curtain-in;
+}
+@keyframes vt-curtain-out {
+  to { transform: scale(0.94); opacity: 0.2; filter: brightness(0.4); }
+}
+@keyframes vt-curtain-in {
+  from { clip-path: inset(100% 0 0 0); transform: translateY(10%); }
+  to { clip-path: inset(0 0 0 0); transform: none; }
+}
+
+/* ---------- Easter egg ---------- */
+html.party {
+  animation: party 1.2s linear infinite;
+}
+@keyframes party {
+  to { filter: hue-rotate(360deg); }
+}
+
+/* ---------- Réduire les animations (préférence utilisateur) ---------- */
+[data-motion="reduce"] *,
+[data-motion="reduce"] *::before,
+[data-motion="reduce"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+[data-motion="reduce"]::view-transition-old(*),
+[data-motion="reduce"]::view-transition-new(*),
+[data-motion="reduce"]::view-transition-group(*) {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+}
+[data-motion="reduce"] .grain,
+[data-motion="reduce"] .marquee-track {
+  animation: none !important;
+}

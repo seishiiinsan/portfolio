@@ -1,9 +1,13 @@
 "use client";
 
-import { useActionState } from "react";
+import Script from "next/script";
+import { useActionState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { sendMessage, type ContactState } from "@/app/[locale]/actions";
 import type { Dict } from "@/lib/i18n";
+import { Magnetic } from "./magnetic";
+
+const TURNSTILE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 const field =
   "peer w-full border-b border-line bg-transparent pt-6 pb-3 text-xl outline-none transition-colors focus:border-accent md:text-2xl";
@@ -12,17 +16,22 @@ const label =
 
 export function ContactForm({ dict }: { dict: Dict }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendMessage, { status: "idle" });
+  const started = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (started.current) started.current.value = String(Date.now());
+  }, []);
 
   return (
     <form action={action} className="grid gap-8">
       <input type="text" name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+      <input type="hidden" name="t" ref={started} defaultValue="" />
       <div className="grid gap-8 md:grid-cols-2">
         <label className="relative block">
-          <input name="name" required placeholder=" " maxLength={200} className={field} />
+          <input name="name" required autoComplete="name" placeholder=" " maxLength={200} className={field} />
           <span className={label}>{dict.name}</span>
         </label>
         <label className="relative block">
-          <input name="email" type="email" required placeholder=" " maxLength={320} className={field} />
+          <input name="email" type="email" required autoComplete="email" placeholder=" " maxLength={320} className={field} />
           <span className={label}>{dict.email}</span>
         </label>
       </div>
@@ -30,7 +39,14 @@ export function ContactForm({ dict }: { dict: Dict }) {
         <textarea name="body" required placeholder=" " rows={4} maxLength={5000} className={`${field} resize-none`} />
         <span className={label}>{dict.message}</span>
       </label>
+      {TURNSTILE_KEY && (
+        <>
+          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+          <div className="cf-turnstile" data-sitekey={TURNSTILE_KEY} data-theme="auto" />
+        </>
+      )}
       <div className="flex flex-wrap items-center gap-6">
+        <Magnetic>
         <button
           type="submit"
           disabled={pending}
@@ -39,6 +55,7 @@ export function ContactForm({ dict }: { dict: Dict }) {
           <span className="absolute inset-0 translate-y-full rounded-full bg-accent transition-transform duration-500 ease-out-expo group-hover:translate-y-0" />
           <span className="relative">{pending ? dict.sending : `${dict.send} →`}</span>
         </button>
+        </Magnetic>
         <AnimatePresence mode="wait">
           {state.status !== "idle" && !pending && (
             <motion.p
@@ -49,7 +66,7 @@ export function ContactForm({ dict }: { dict: Dict }) {
               className={`font-mono text-xs uppercase ${state.status === "ok" ? "text-accent" : "text-muted"}`}
               role="status"
             >
-              {state.status === "ok" ? dict.sent : dict.error}
+              {state.status === "ok" ? dict.sent : state.status === "limited" ? dict.tooMany : dict.error}
             </motion.p>
           )}
         </AnimatePresence>

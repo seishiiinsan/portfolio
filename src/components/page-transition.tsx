@@ -1,6 +1,12 @@
 import { ViewTransition, type ReactNode } from "react";
 
-const map = { "nav-forward": "nav-forward", "nav-back": "nav-back", "nav-fade": "nav-fade", default: "none" };
+const map = {
+  "nav-forward": "nav-forward",
+  "nav-back": "nav-back",
+  "nav-fade": "nav-fade",
+  "nav-curtain": "nav-curtain",
+  default: "none",
+};
 
 /** À placer dans chaque page.tsx (pas le layout). */
 export function PageTransition({ children }: { children: ReactNode }) {

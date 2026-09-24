@@ -25,24 +25,33 @@ Développeur full-stack à Castres · co-fondateur de [Rinku Studio](https://rin
 ## Fonctionnalités
 
 **Site public**
-- Style suisse : grille visible, typographie Space Grotesk / Space Mono, une couleur d'accent.
+- Style suisse : grille visible, Space Grotesk / Space Mono, une couleur d'accent.
 - Bilingue EN / FR (`/en`, `/fr`), anglais par défaut, choix mémorisé.
 - Thème sombre par défaut, bascule clair / sombre animée.
-- Accueil en une page : hero, à propos, projets mis en avant, parcours, contact.
-- Index des projets avec aperçu d'image au survol, pages détail en Markdown avec galerie.
-- Formulaire de contact enregistré en base.
+- Accueil : hero + CTA, bandeau de stack, à propos, projets, parcours, témoignages, contact (prise de RDV optionnelle).
+- Projets : index filtrable par tag, aperçu au survol (vignettes sur mobile), détail avec cover, chiffres clés, vidéo, carrousel 16:9 + visionneuse.
+- Blog (Markdown, flux RSS), pages Now / Uses / Studio éditables.
+- Newsletter Rinku Studio, formulaire de contact anti-spam (honeypot, délai minimal, limite de débit, Turnstile optionnel).
+- Palette ⌘K, raccourcis (T thème, L langue, M animations, ? aide), easter egg.
 
 **Animations**
-- Transitions de pages natives avec React `<ViewTransition>` : glissement directionnel, morph du titre projet de la liste vers le détail, header fixe.
-- Loader d'intro, curseur personnalisé, grain, défilement fluide (Lenis), parallax, textes révélés au scroll (Motion).
-- `prefers-reduced-motion` respecté.
+- Transitions natives React `<ViewTransition>` : glissement, rideau, morph du titre et de la cover projet.
+- Loader d'intro, curseur avec libellé, boutons magnétiques, grain, Lenis, parallax, textes révélés, barre de lecture.
+- Réglage « réduire les animations » + respect de `prefers-reduced-motion`.
+
+**SEO & qualité**
+- Images Open Graph générées (accueil, projets, articles), icônes aux couleurs de l'accent, sitemap, robots, JSON-LD, hreflang / canonique.
+- Accessibilité : lien d'évitement, focus visible, libellés ARIA (Lighthouse a11y 100).
+- Tests Playwright (`npm run test:e2e`) et CI GitHub Actions (lint, types, build, e2e).
+- Vercel Analytics + Speed Insights, compteur de vues maison sans cookie.
 
 **Administration (`/admin`)**
 - Connexion GitHub OAuth, réservée aux comptes listés dans `public.admins`.
-- Réglages : couleur d'accent, textes hero / à propos (FR/EN), réseaux, CV PDF, disponibilité.
-- Projets : création, édition, ordre, mise en avant, brouillon, upload cover et galerie.
-- Parcours (expériences, formations) et messages reçus.
-- Chaque sauvegarde régénère les pages statiques (`revalidatePath`).
+- Réglages : accent, textes, CTA, stack, RDV, compteur de formations, réseaux, CV.
+- Projets, parcours, témoignages : réordonnables au glisser-déposer.
+- Éditeur Markdown avec aperçu, modèle d'étude de cas, traduction IA FR ⇄ EN.
+- Upload avec compression WebP automatique, lien de prévisualisation privé par projet.
+- Blog, pages, messages, abonnés (export CSV), statistiques 30 jours.
 
 ## Stack
 
@@ -76,7 +85,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Variables (toutes publiques, voir `.env.example`) :
+Variables publiques (voir `.env.example`) :
 
 | Variable | Rôle |
 | --- | --- |
@@ -84,10 +93,18 @@ Variables (toutes publiques, voir `.env.example`) :
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Clé publishable (accès limité par la RLS) |
 | `NEXT_PUBLIC_SITE_URL` | URL canonique du site |
 
+Variables optionnelles (secrets, à définir dans Vercel) : `ANTHROPIC_API_KEY` (traduction IA), `NOTIFY_WEBHOOK_URL`
+(notification Discord / Slack des messages), `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (anti-spam).
+
+```bash
+npm run test:e2e   # tests Playwright (build requis)
+```
+
 ## Base de données
 
 Schéma dans [`supabase/migrations/0001_init.sql`](supabase/migrations/0001_init.sql) :
-`settings` (ligne unique, dont lien studio), `projects`, `experiences`, `messages`, `admins`, bucket public `media`.
+`settings` (ligne unique), `projects`, `experiences`, `posts`, `pages`, `testimonials`, `messages`, `subscribers`,
+`page_views`, `admins`, bucket public `media`. Migrations dans `supabase/migrations/`.
 
 La RLS autorise la lecture publique et réserve l'écriture à `public.is_admin()`. Les visiteurs peuvent seulement envoyer un message.
 

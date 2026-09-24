@@ -42,6 +42,23 @@ export default async function SettingsPage({ searchParams }: PageProps<"/admin">
         <L10nField name="role" label="Rôle" value={s.role} />
         <L10nField name="hero" label="Texte hero" value={s.hero} area />
         <L10nField name="about" label="À propos" value={s.about} area rows={6} />
+        <div className="grid gap-4 border-t border-line pt-8 md:grid-cols-2">
+          <Field label="Bouton du hero : URL" hint="Ex. lien vers Onbo. Vide = pas de bouton.">
+            <input name="cta_url" type="url" defaultValue={s.cta_url ?? ""} className={input} />
+          </Field>
+          <Field label="Lien de prise de rendez-vous" hint="Cal.com, Calendly… affiché dans Contact">
+            <input name="booking_url" type="url" defaultValue={s.booking_url ?? ""} className={input} />
+          </Field>
+        </div>
+        <L10nField name="cta_label" label="Bouton du hero : texte" value={s.cta_label} />
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field label="Stack (bandeau défilant)" hint="Séparée par des virgules">
+            <input name="stack" defaultValue={s.stack.join(", ")} className={input} />
+          </Field>
+          <Field label="Sessions de formation IA animées" hint="0 = masqué">
+            <input name="trainings_count" type="number" min={0} defaultValue={s.trainings_count} className={input} />
+          </Field>
+        </div>
         <Field label="Réseaux" hint="Une ligne par lien : Label | https://url">
           <textarea
             name="socials"
