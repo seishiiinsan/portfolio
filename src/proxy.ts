@@ -46,5 +46,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|icon|apple-icon|.*\\..*).*)"],
+  matcher: ["/((?!_next|api|monitoring|icon|apple-icon|.*\\..*).*)"],
 };

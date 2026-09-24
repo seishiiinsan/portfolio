@@ -7,7 +7,7 @@ test("la racine redirige vers l'anglais par défaut", async ({ page }) => {
 });
 
 test("thème sombre par défaut, bascule avec T", async ({ page }) => {
-  await page.goto("/en");
+  await page.goto("/en", { waitUntil: "networkidle" }); // raccourcis actifs après hydratation
   const html = page.locator("html");
   await expect(html).toHaveAttribute("data-theme", "dark");
   await page.locator("body").press("t");
@@ -31,7 +31,7 @@ test("lien d'évitement vers le contenu", async ({ page }) => {
 });
 
 test("palette ⌘K : navigation vers les projets", async ({ page }) => {
-  await page.goto("/en");
+  await page.goto("/en", { waitUntil: "networkidle" });
   await page.keyboard.press("ControlOrMeta+k");
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -41,7 +41,7 @@ test("palette ⌘K : navigation vers les projets", async ({ page }) => {
 });
 
 test("préférence « réduire les animations »", async ({ page }) => {
-  await page.goto("/en");
+  await page.goto("/en", { waitUntil: "networkidle" }); // raccourcis actifs après hydratation
   const html = page.locator("html");
   // Le navigateur de test émule prefers-reduced-motion: reduce
   await expect(html).toHaveAttribute("data-motion", "reduce");
