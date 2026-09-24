@@ -7,7 +7,12 @@ const nav = [
   { href: "/admin", label: "Réglages" },
   { href: "/admin/projects", label: "Projets" },
   { href: "/admin/experiences", label: "Parcours" },
+  { href: "/admin/posts", label: "Blog" },
+  { href: "/admin/pages", label: "Pages" },
+  { href: "/admin/testimonials", label: "Témoignages" },
   { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/subscribers", label: "Abonnés" },
+  { href: "/admin/stats", label: "Statistiques" },
 ];
 
 export default async function Panel({ children }: LayoutProps<"/admin">) {

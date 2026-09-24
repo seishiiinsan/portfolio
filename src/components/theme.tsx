@@ -4,8 +4,8 @@ import { useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
-// Inline dans <head> : pose le thème avant le premier paint.
-export const themeScript = `(()=>{try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}})()`;
+// Inline dans <head> : pose thème (sombre par défaut) et préférence d'animation avant le premier paint.
+export const themeScript = `(()=>{var d=document.documentElement;try{var t=localStorage.getItem('theme');d.dataset.theme=t==='light'?'light':'dark';var m=localStorage.getItem('motion');d.dataset.motion=m==='reduce'||(m!=='full'&&matchMedia('(prefers-reduced-motion: reduce)').matches)?'reduce':'full'}catch(e){d.dataset.theme='dark'}})()`;
 
 function subscribe(cb: () => void) {
   const mo = new MutationObserver(cb);
@@ -14,21 +14,22 @@ function subscribe(cb: () => void) {
 }
 const getTheme = () => (document.documentElement.dataset.theme as Theme) ?? "dark";
 
+export function toggleTheme() {
+  const next: Theme = getTheme() === "dark" ? "light" : "dark";
+  const apply = () => {
+    document.documentElement.dataset.theme = next;
+  };
+  try {
+    localStorage.setItem("theme", next);
+  } catch {}
+  if (document.startViewTransition && document.documentElement.dataset.motion !== "reduce") {
+    document.startViewTransition(apply);
+  } else apply();
+}
+
 export function ThemeToggle({ label }: { label: string }) {
   const theme = useSyncExternalStore(subscribe, getTheme, (): Theme => "dark");
-
-  function toggle() {
-    const next: Theme = theme === "dark" ? "light" : "dark";
-    const apply = () => {
-      document.documentElement.dataset.theme = next;
-    };
-    try {
-      localStorage.setItem("theme", next);
-    } catch {}
-    if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.startViewTransition(apply);
-    } else apply();
-  }
+  const toggle = toggleTheme;
 
   return (
     <button

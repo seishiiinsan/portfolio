@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { FadeImage } from "./fade-image";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -9,7 +10,15 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /** Carrousel 16:9 à défilement snap + visionneuse plein écran. */
-export function GalleryCarousel({ images, title }: { images: string[]; title: string }) {
+export function GalleryCarousel({
+  images,
+  title,
+  labels,
+}: {
+  images: string[];
+  title: string;
+  labels: { close: string; previous: string; nextLabel: string };
+}) {
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
@@ -62,7 +71,7 @@ export function GalleryCarousel({ images, title }: { images: string[]; title: st
             aria-label={`${title} — ${i + 1}/${images.length}`}
             className="group relative aspect-video w-[85%] shrink-0 snap-start overflow-hidden bg-line md:w-[46%] lg:w-[38%]"
           >
-            <Image
+            <FadeImage
               src={src}
               alt=""
               fill
@@ -86,7 +95,7 @@ export function GalleryCarousel({ images, title }: { images: string[]; title: st
             />
           </div>
           <div className="flex gap-2">
-            <button type="button" className={btn} onClick={() => goTo(index - 1)} disabled={index === 0} aria-label="Previous">
+            <button type="button" className={btn} onClick={() => goTo(index - 1)} disabled={index === 0} aria-label={labels.previous}>
               ←
             </button>
             <button
@@ -94,7 +103,7 @@ export function GalleryCarousel({ images, title }: { images: string[]; title: st
               className={btn}
               onClick={() => goTo(index + 1)}
               disabled={index === images.length - 1}
-              aria-label="Next"
+              aria-label={labels.nextLabel}
             >
               →
             </button>
@@ -121,7 +130,7 @@ export function GalleryCarousel({ images, title }: { images: string[]; title: st
                   {pad(open + 1)} / {pad(images.length)}
                 </span>
                 <button type="button" onClick={() => setOpen(null)} className="link-u uppercase">
-                  Esc ×
+                  {labels.close} ×
                 </button>
               </div>
               <div className="relative my-6 flex-1">
@@ -140,10 +149,10 @@ export function GalleryCarousel({ images, title }: { images: string[]; title: st
               </div>
               {images.length > 1 && (
                 <div className="flex justify-center gap-2" onClick={(e) => e.stopPropagation()}>
-                  <button type="button" className={btn} onClick={() => setOpen((open - 1 + images.length) % images.length)} aria-label="Previous">
+                  <button type="button" className={btn} onClick={() => setOpen((open - 1 + images.length) % images.length)} aria-label={labels.previous}>
                     ←
                   </button>
-                  <button type="button" className={btn} onClick={() => setOpen((open + 1) % images.length)} aria-label="Next">
+                  <button type="button" className={btn} onClick={() => setOpen((open + 1) % images.length)} aria-label={labels.nextLabel}>
                     →
                   </button>
                 </div>

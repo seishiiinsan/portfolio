@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import { ViewTransition, useState } from "react";
 import type { Locale } from "@/lib/i18n";
 import { t } from "@/lib/i18n";
 import type { Project } from "@/lib/types";
+import { FadeImage } from "./fade-image";
 
 export function ProjectIndex({ projects, locale }: { projects: Project[]; locale: Locale }) {
   const [active, setActive] = useState<number | null>(null);
@@ -38,6 +38,7 @@ export function ProjectIndex({ projects, locale }: { projects: Project[]; locale
               href={`/${locale}/projects/${p.slug}`}
               transitionTypes={["nav-forward"]}
               data-cursor="view"
+              data-cursor-label={t(p.title, locale)}
               onPointerEnter={() => setActive(i)}
               className="group relative grid grid-cols-4 items-baseline gap-4 py-6 md:grid-cols-12 md:gap-6 md:py-8"
             >
@@ -59,6 +60,11 @@ export function ProjectIndex({ projects, locale }: { projects: Project[]; locale
               <span className="relative hidden text-right font-mono text-xs text-muted transition-colors group-hover:text-accent-fg md:col-span-2 md:block md:pr-2">
                 {p.year ?? ""}
               </span>
+              {p.cover_url && (
+                <span className="relative col-span-4 aspect-video overflow-hidden bg-line md:hidden">
+                  <FadeImage src={p.cover_url} alt="" fill sizes="100vw" className="object-cover" />
+                </span>
+              )}
             </Link>
           </motion.li>
         ))}
@@ -80,7 +86,11 @@ export function ProjectIndex({ projects, locale }: { projects: Project[]; locale
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Image src={projects[active].cover_url!} alt="" fill sizes="24vw" className="object-cover" />
+              <ViewTransition name={`project-cover-${projects[active].slug}`} share="morph" default="none">
+                <div className="absolute inset-0">
+                  <FadeImage src={projects[active].cover_url!} alt="" fill sizes="24vw" className="object-cover" />
+                </div>
+              </ViewTransition>
             </motion.div>
           )}
         </AnimatePresence>

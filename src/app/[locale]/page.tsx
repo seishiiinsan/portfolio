@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDict, isLocale, t } from "@/lib/i18n";
-import { getExperiences, getProjects, getSettings } from "@/lib/data";
+import { getExperiences, getProjects, getSettings, getTestimonials } from "@/lib/data";
 import { PageTransition } from "@/components/page-transition";
 import { Hero } from "@/components/hero";
 import { ScrollText } from "@/components/scroll-text";
@@ -10,12 +10,27 @@ import { ProjectIndex } from "@/components/project-index";
 import { Reveal, SplitText } from "@/components/reveal";
 import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/footer";
+import { Marquee } from "@/components/marquee";
+import { Magnetic } from "@/components/magnetic";
+import { alternates } from "@/lib/site";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  return isLocale(locale) ? { alternates: alternates(locale) } : {};
+}
 
 export default async function Home({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const dict = getDict(locale);
-  const [s, projects, exps] = await Promise.all([getSettings(), getProjects(), getExperiences()]);
+  const [s, projects, exps, testimonials] = await Promise.all([
+    getSettings(),
+    getProjects(),
+    getExperiences(),
+    getTestimonials(),
+  ]);
+  const ctaLabel = t(s.cta_label, locale);
   const featured = projects.filter((p) => p.featured);
   const shown = (featured.length ? featured : projects).slice(0, 6);
   const about = t(s.about, locale);
@@ -30,7 +45,10 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           location={s.location}
           available={s.available}
           labels={dict}
+          cta={ctaLabel && s.cta_url ? { label: ctaLabel, url: s.cta_url } : undefined}
         />
+
+        <Marquee items={s.stack} />
 
         {about && (
           <section id="about" className="scroll-mt-24 px-4 py-24 md:px-8 md:py-40">
@@ -40,6 +58,14 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                 text={about}
                 className="text-3xl leading-[1.1] font-medium tracking-[-0.03em] md:col-span-10 md:text-6xl"
               />
+              {s.trainings_count > 0 && (
+                <Reveal className="md:col-span-12">
+                  <p className="flex items-baseline gap-4">
+                    <span className="text-6xl font-medium tracking-tight text-accent md:text-8xl">{s.trainings_count}</span>
+                    <span className="font-mono text-xs uppercase text-muted">{dict.trainings}</span>
+                  </p>
+                </Reveal>
+              )}
               {s.cv_url && (
                 <Reveal className="md:col-span-12">
                   <a
@@ -118,8 +144,35 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           </section>
         )}
 
+        {testimonials.length > 0 && (
+          <section className="px-4 py-24 md:px-8 md:py-40">
+            <SectionHead n="04" label={dict.testimonials} />
+            <div className="grid gap-12 md:grid-cols-2 md:gap-6">
+              {testimonials.map((q, i) => (
+                <Reveal key={q.id} delay={(i % 2) * 0.1}>
+                  <figure className="border-t border-line pt-6">
+                    <blockquote className="text-2xl leading-snug font-medium tracking-tight md:text-3xl">
+                      “{t(q.quote, locale)}”
+                    </blockquote>
+                    <figcaption className="mt-6 font-mono text-xs uppercase text-muted">
+                      {q.url ? (
+                        <a href={q.url} target="_blank" rel="noreferrer" className="link-u hover:text-fg">
+                          {q.author}
+                        </a>
+                      ) : (
+                        q.author
+                      )}
+                      {q.role && ` — ${q.role}`}
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section id="contact" className="scroll-mt-24 px-4 py-24 md:px-8 md:py-40">
-          <SectionHead n="04" label={dict.contact} />
+          <SectionHead n={testimonials.length ? "05" : "04"} label={dict.contact} />
           <SplitText
             as="h2"
             by="word"
@@ -135,6 +188,20 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
                 >
                   {s.email}
                 </a>
+              )}
+              {s.booking_url && (
+                <div className="mt-8">
+                  <Magnetic>
+                    <a
+                      href={s.booking_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex rounded-full border border-fg px-6 py-3 font-mono text-xs uppercase transition-colors hover:border-accent hover:bg-accent hover:text-accent-fg"
+                    >
+                      {dict.bookCall} ↗
+                    </a>
+                  </Magnetic>
+                </div>
               )}
               <ul className="mt-8 grid gap-2 font-mono text-xs uppercase">
                 {s.socials.map((so) => (
@@ -152,7 +219,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
           </div>
         </section>
 
-        <Footer s={s} />
+        <Footer s={s} dict={dict} locale={locale} />
       </div>
     </PageTransition>
   );

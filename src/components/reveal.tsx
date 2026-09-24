@@ -42,7 +42,8 @@ export function SplitText({
   let i = 0;
 
   return (
-    <Tag ref={ref as never} className={className} aria-label={text}>
+    <Tag ref={ref as never} className={className}>
+      <span className="sr-only">{text}</span>
       {words.map((w, wi) => (
         <span key={wi} aria-hidden className="inline-block whitespace-nowrap">
           {(by === "char" ? w.split("") : [w]).map((c, ci) => {

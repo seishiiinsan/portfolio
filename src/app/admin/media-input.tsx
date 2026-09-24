@@ -4,6 +4,26 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { input } from "./ui";
 
+const MAX_WIDTH = 2400;
+
+/** Redimensionne (≤ 2400 px) et convertit en WebP côté navigateur ; garde l'original si plus léger. */
+async function compress(file: File): Promise<File> {
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_WIDTH / bmp.width);
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    canvas.getContext("2d")!.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, "image/webp", 0.85));
+    if (!blob || blob.size >= file.size) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, ".webp"), { type: "image/webp" });
+  } catch {
+    return file;
+  }
+}
+
 /** Upload vers Supabase Storage (bucket media) ; stocke les URLs publiques dans un champ caché. */
 export function MediaInput({
   name,
@@ -26,7 +46,8 @@ export function MediaInput({
     setErr("");
     const sb = createClient();
     const out: string[] = [];
-    for (const file of Array.from(files)) {
+    for (const original of Array.from(files)) {
+      const file = await compress(original);
       const ext = file.name.split(".").pop()?.toLowerCase() ?? "bin";
       const path = `${new Date().getFullYear()}/${crypto.randomUUID()}.${ext}`;
       const { error } = await sb.storage.from("media").upload(path, file, { contentType: file.type });

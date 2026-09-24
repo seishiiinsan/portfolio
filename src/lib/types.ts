@@ -1,6 +1,6 @@
 import type { L10n } from "./i18n";
 
-type Social = { label: string; url: string };
+export type Social = { label: string; url: string };
 
 export type Settings = {
   id: number;
@@ -16,6 +16,11 @@ export type Settings = {
   cv_url: string | null;
   studio_name: string | null;
   studio_url: string | null;
+  booking_url: string | null;
+  trainings_count: number;
+  stack: string[];
+  cta_label: L10n;
+  cta_url: string | null;
   updated_at: string;
 };
 
@@ -36,7 +41,31 @@ export type Project = {
   published: boolean;
   position: number;
   created_at: string;
+  video_url: string | null;
+  metrics: Metric[];
+  preview_token: string;
 };
+
+export type Metric = { value: string; label: L10n };
+
+export type Page = { slug: string; title: L10n; content: L10n; updated_at: string };
+
+export type Post = {
+  id: string;
+  slug: string;
+  title: L10n;
+  summary: L10n;
+  content: L10n;
+  cover_url: string | null;
+  tags: string[];
+  published: boolean;
+  published_at: string;
+  created_at: string;
+};
+
+export type Testimonial = { id: string; author: string; role: string | null; url: string | null; quote: L10n; position: number };
+
+export type Subscriber = { id: string; email: string; locale: string; created_at: string };
 
 export type Experience = {
   id: string;

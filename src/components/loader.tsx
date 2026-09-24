@@ -26,7 +26,7 @@ export function Loader({ name }: { name: string }) {
       seen = sessionStorage.getItem("intro") === "1";
       sessionStorage.setItem("intro", "1");
     } catch {}
-    if (seen || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (seen || document.documentElement.dataset.motion === "reduce") {
       setShow(false);
       done();
       return;

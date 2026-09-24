@@ -3,12 +3,14 @@
 import { motion, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 
+type State = { kind: "default" | "hover" | "view"; label?: string };
+
 export function Cursor() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.4 });
   const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.4 });
-  const [state, setState] = useState<"default" | "hover" | "view">("default");
+  const [state, setState] = useState<State>({ kind: "default" });
   const [down, setDown] = useState(false);
 
   useEffect(() => {
@@ -17,9 +19,12 @@ export function Cursor() {
     const move = (e: PointerEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>("a,button,[data-cursor],input,textarea,select,label");
-      const kind = el?.dataset.cursor;
-      setState(kind === "view" ? "view" : el ? "hover" : "default");
+      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(
+        "a,button,[data-cursor],input,textarea,select,label",
+      );
+      const label = el?.dataset.cursorLabel;
+      const kind = el?.dataset.cursor === "view" || label ? "view" : el ? "hover" : "default";
+      setState((s) => (s.kind === kind && s.label === label ? s : { kind, label }));
     };
     const d = () => setDown(true);
     const u = () => setDown(false);
@@ -34,17 +39,23 @@ export function Cursor() {
     };
   }, [x, y]);
 
-  const size = state === "view" ? 88 : state === "hover" ? 44 : 12;
+  const labelled = state.kind === "view" && !!state.label;
+  const size = state.kind === "view" ? 88 : state.kind === "hover" ? 44 : 12;
 
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed top-0 left-0 z-[100] hidden pointer-fine:flex items-center justify-center rounded-full bg-accent font-mono text-[10px] uppercase text-accent-fg mix-blend-difference"
-      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%", mixBlendMode: state === "view" ? "normal" : "difference" }}
-      animate={{ width: size, height: size, scale: down ? 0.8 : 1 }}
+      className="pointer-events-none fixed top-0 left-0 z-[100] hidden items-center justify-center rounded-full bg-accent font-mono text-[10px] uppercase text-accent-fg pointer-fine:flex"
+      style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%", mixBlendMode: state.kind === "view" ? "normal" : "difference" }}
+      animate={{
+        width: labelled ? "auto" : size,
+        height: labelled ? 36 : size,
+        paddingInline: labelled ? 16 : 0,
+        scale: down ? 0.85 : 1,
+      }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
-      {state === "view" && <span>View</span>}
+      {state.kind === "view" && <span className="whitespace-nowrap">{state.label ?? "View"} {labelled && "→"}</span>}
     </motion.div>
   );
 }

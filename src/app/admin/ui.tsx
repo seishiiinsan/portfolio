@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { L10n } from "@/lib/i18n";
+export { L10nField } from "./l10n-field";
 
 export const input =
   "w-full border border-line bg-transparent px-3 py-2 outline-none transition-colors focus:border-accent";
@@ -11,34 +11,6 @@ export function Field({ label, children, hint }: { label: string; children: Reac
       {children}
       {hint && <span className="text-xs text-muted">{hint}</span>}
     </label>
-  );
-}
-
-export function L10nField({
-  name,
-  label,
-  value,
-  area,
-  rows = 3,
-}: {
-  name: string;
-  label: string;
-  value?: L10n;
-  area?: boolean;
-  rows?: number;
-}) {
-  return (
-    <div className="grid gap-3 md:grid-cols-2">
-      {(["fr", "en"] as const).map((l) => (
-        <Field key={l} label={`${label} (${l})`}>
-          {area ? (
-            <textarea name={`${name}_${l}`} defaultValue={value?.[l]} rows={rows} className={`${input} font-sans`} />
-          ) : (
-            <input name={`${name}_${l}`} defaultValue={value?.[l]} className={input} />
-          )}
-        </Field>
-      ))}
-    </div>
   );
 }
 
