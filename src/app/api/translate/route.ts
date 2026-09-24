@@ -24,11 +24,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const client = new Anthropic();
-    const response = await client.beta.messages.create({
-      model: "claude-opus-5",
+    const response = await client.messages.create({
+      model: "claude-sonnet-5",
       max_tokens: 16000,
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
       output_config: { effort: "low" },
       system: `You translate portfolio content written by a French full-stack developer from ${langs[from!]} to ${langs[to!]}. Keep the author's tone (warm, direct, first person), technical terms and product names unchanged.${
         markdown ? " Preserve the Markdown structure exactly (headings, lists, links, code)." : ""
