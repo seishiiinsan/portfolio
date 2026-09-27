@@ -1,14 +1,7 @@
 "use client";
 
-import * as Sentry from "@sentry/nextjs";
-import { useEffect } from "react";
-
-/** Erreur fatale au niveau du layout racine : remontée à Sentry, page de secours minimale. */
-export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
-
+/** Erreur fatale au niveau du layout racine : page de secours minimale. */
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <html lang="en" data-theme="dark">
       <body style={{ margin: 0, minHeight: "100dvh", display: "grid", placeItems: "center", background: "#0d0d0d", color: "#ecebe6", fontFamily: "system-ui, sans-serif" }}>
